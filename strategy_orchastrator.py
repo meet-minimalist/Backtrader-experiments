@@ -1,5 +1,5 @@
 import pandas as pd
-from main_v2 import (
+from main import (
     setup_cerebro,
     load_index_data,
     run_backtest,
@@ -15,21 +15,19 @@ class StrategyTester:
     A lightweight orchestrator for testing strategies using main_v2 components.
     """
 
-    def __init__(self, cash=None, commission_rate=None):
+    def __init__(self, cash=None):
         """
         Initialize the strategy tester.
 
         Args:
             cash: Starting cash amount (defaults to config value)
-            commission_rate: Commission rate (defaults to config value)
         """
         from config import initial_cash, commission
         self.cash = cash if cash is not None else initial_cash
-        self.commission = commission_rate if commission_rate is not None else commission
 
 
     def test_multiple_stocks(self, strategy_class, symbols, strategy_params=None,
-                             start_date=None, end_date=None):
+                             start_date=None, end_date=None, log_trades=True):
         """Test a strategy on custom list of stocks."""
         from utils.stock_helper import fetch_stock_data
 
@@ -40,14 +38,16 @@ class StrategyTester:
             end_date=end_date,
         )
 
-        # Use main_v2's setup_cerebro
+        # Use main's setup_cerebro
         cerebro = setup_cerebro(
             strategy_class=strategy_class,
             data_feeds=data_feeds,
             successful_symbols=successful_symbols,
             strategy_params=strategy_params,
             cash=self.cash,
-            commission_rate=self.commission
+            log_trades=log_trades,
+            strategy_name=strategy_class.__name__,
+            stock_name='_'.join(symbols) if len(symbols) <= 3 else f'{len(symbols)}_stocks'
         )
 
         print(f"\nStarting Backtest with {len(cerebro.datas)} stocks")
@@ -67,9 +67,9 @@ class StrategyTester:
         }
 
     def test_index(self, strategy_class, index_name, strategy_params=None,
-                   start_date=None, end_date=None):
+                   start_date=None, end_date=None, log_trades=True):
         """Test a strategy on an entire index."""
-        # Load index data using main_v2
+        # Load index data using main
         data_feeds, successful_symbols = load_index_data(
             index_name=index_name,
             start_date=start_date,
@@ -82,7 +82,9 @@ class StrategyTester:
             successful_symbols=successful_symbols,
             strategy_params=strategy_params,
             cash=self.cash,
-            commission_rate=self.commission
+            log_trades=log_trades,
+            strategy_name=strategy_class.__name__,
+            stock_name=index_name
         )
 
         print(f"\nStarting Backtest with {len(cerebro.datas)} stocks")
@@ -122,7 +124,7 @@ class StrategyTester:
             print(f"Testing: {config['name']}")
             print('='*80)
 
-            # Use full backtest from main_v2
+            # Use full backtest from main (DISABLE trade logging for comparison)
             result = run_backtest(
                 strategy_class=config['class'],
                 index_name=use_index,
@@ -131,7 +133,8 @@ class StrategyTester:
                 end_date=end_date,
                 strategy_params=config.get('params'),
                 cash=self.cash,
-                commission_rate=self.commission,
+                log_trades=False,  # Disable for comparison
+                strategy_name=config['name'],
                 plot=False
             )
 
@@ -164,7 +167,7 @@ class StrategyTester:
 
 # Example usage
 if __name__ == "__main__":
-    from strategy import MidcapMeanReversion, SimpleSMAStrategy, RSIStrategy, MACDStrategy
+    from strategy import ShopStrategy, SimpleSMAStrategy, RSIStrategy, MACDStrategy
 
     print("="*80)
     print("Strategy Tester - Lightweight Orchestrator")
@@ -184,7 +187,7 @@ if __name__ == "__main__":
 
     # Example 2: Test on index
     # result = tester.test_index(
-    #     strategy_class=MidcapMeanReversion,
+    #     strategy_class=ShopStrategy,
     #     index_name='NIFTY_MIDCAP_50',
     #     start_date='2023-01-01',
     #     end_date='2024-01-01'
@@ -193,8 +196,8 @@ if __name__ == "__main__":
     # Example 3: Compare strategies
     strategies = [
         {
-            'name': 'MidcapMeanReversion',
-            'class': MidcapMeanReversion,
+            'name': 'ShopStrategy',
+            'class': ShopStrategy,
             'params': {}
         },
         {

@@ -208,3 +208,5 @@ __marimo__/
 
 # yfinance cache
 yfinance_data/
+extras/
+trade_logs/

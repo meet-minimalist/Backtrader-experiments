@@ -4,3 +4,4 @@ numpy_financial==1.0.0
 thematicnifty==0.1.4
 requests==2.32.4
 yfinance==0.2.65
+numpy_financial==1.0.0

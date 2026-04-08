@@ -1,54 +1,81 @@
+import sys
 import backtrader as bt
-from strategy import MidcapMeanReversion
-from analyzers.sortino_analyzer import SortinoRatio as Sortino
-from config import commission, initial_cash, riskfreerate
+
+# Fix Windows console encoding for ₹ character
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+
+import inspect
+from strategy import ShopStrategy
+from analyzers.sortino import SortinoRatio
+from analyzers.trade_logger import TradeLogger
+from analyzers.xirr_analyzer import XIRRAnalyzer
+from config import initial_cash, riskfreerate
 from utils.stock_helper import load_index_data, fetch_stock_data
+from commission.zerodha import ZerodhaDeliveryCommission
 
-
-def setup_cerebro(strategy_class, data_feeds, successful_symbols, 
-                  strategy_params=None, cash=None, commission_rate=None):
+def setup_cerebro(strategy_class, data_feeds, successful_symbols=None,
+                  strategy_params=None, cash=None, log_trades=True, 
+                  strategy_name=None, stock_name=None):
     """
     Create and configure Cerebro engine with data, strategy, and analyzers.
-    
+
     Args:
         strategy_class: Backtrader strategy class
         data_feeds: List of backtrader data feeds
-        successful_symbols: List of symbol names corresponding to data_feeds
+        successful_symbols: List of symbol names corresponding to data_feeds (optional)
         strategy_params: Dict of parameters to pass to strategy
         cash: Starting cash (defaults to config)
-        commission_rate: Commission rate (defaults to config)
-    
+        log_trades: Whether to enable trade logging (default: True)
+        strategy_name: Strategy name for trade logger
+        stock_name: Stock/index name for trade logger
+
     Returns:
         Configured Cerebro instance
     """
     cerebro = bt.Cerebro()
-    
+
     # Add data feeds
-    for data_feed, symbol in zip(data_feeds, successful_symbols):
-        cerebro.adddata(data_feed, name=symbol)
-    
-    # Add strategy
+    for data_feed in data_feeds:
+        name = data_feed._name if hasattr(data_feed, '_name') else None
+        cerebro.adddata(data_feed, name=name)
+
+    # Add strategy - only pass symbol_names if strategy accepts it
+    all_params = {}
     if strategy_params:
-        cerebro.addstrategy(strategy_class, symbol_names=successful_symbols, **strategy_params)
+        all_params.update(strategy_params)
+
+    # Check if strategy accepts symbol_names parameter
+    if successful_symbols:
+        sig = inspect.signature(strategy_class.__init__)
+        if 'symbol_names' in sig.parameters:
+            all_params['symbol_names'] = successful_symbols
+
+    if all_params:
+        cerebro.addstrategy(strategy_class, **all_params)
     else:
-        cerebro.addstrategy(strategy_class, symbol_names=successful_symbols)
+        cerebro.addstrategy(strategy_class)
     
     # Set up broker
     cerebro.broker.setcash(cash if cash is not None else initial_cash)
-    cerebro.broker.setcommission(commission=commission_rate if commission_rate is not None else commission)
+    cerebro.broker.addcommissioninfo(ZerodhaDeliveryCommission())
     
     # Add comprehensive analyzers
-    add_comprehensive_analyzers(cerebro)
-    
+    add_comprehensive_analyzers(cerebro, log_trades=log_trades, 
+                                strategy_name=strategy_name, stock_name=stock_name)
+
     return cerebro
 
 
-def add_comprehensive_analyzers(cerebro):
+def add_comprehensive_analyzers(cerebro, log_trades=True, strategy_name=None, stock_name=None):
     """
     Add all comprehensive analyzers to cerebro.
-    
+
     Args:
         cerebro: Backtrader Cerebro instance
+        log_trades: Whether to enable trade logger
+        strategy_name: Strategy name for trade logger
+        stock_name: Stock/index name for trade logger
     """
     # Returns Analysis
     cerebro.addanalyzer(bt.analyzers.Returns, _name='returns')
@@ -64,30 +91,40 @@ def add_comprehensive_analyzers(cerebro):
         annualize=True
     )
     cerebro.addanalyzer(bt.analyzers.DrawDown, _name='drawdown')
-    cerebro.addanalyzer(Sortino, _name='sortino', riskfreerate=riskfreerate, timeframe=bt.TimeFrame.Days)
-    
+    cerebro.addanalyzer(SortinoRatio, _name='sortino', riskfreerate=riskfreerate, timeframe=bt.TimeFrame.Days)
+
+    # XIRR Analysis
+    cerebro.addanalyzer(XIRRAnalyzer, _name='xirr')
+
     # Trade Analysis
     cerebro.addanalyzer(bt.analyzers.PyFolio, _name='pyfolio')
     cerebro.addanalyzer(bt.analyzers.TradeAnalyzer, _name='trades')
     
+    # Trade Logger (optional)
+    if log_trades:
+        cerebro.addanalyzer(TradeLogger, _name='trade_logger',
+                           enabled=True,
+                           strategy_name=strategy_name,
+                           stock_name=stock_name)
+    
 
-def run_backtest(strategy_class=None, index_name=None, 
+def run_backtest(strategy_class=None, index_name=None,
                  start_date=None, end_date=None,
                  symbols=None, strategy_params=None,
                  cash=None, commission_rate=None,
+                 log_trades=True, strategy_name=None, stock_name=None,
                  plot=False):
     """
     Run a complete backtest with comprehensive analytics.
     
     Args:
-        strategy_class: Backtrader strategy class (default: MidcapMeanReversion)
+        strategy_class: Backtrader strategy class (default: ShopStrategy)
         index_name: Index name to load data from
         start_date: Start date string
         end_date: End date string
         symbols: List of symbols (alternative to index_name)
         strategy_params: Dict of strategy parameters
         cash: Starting cash
-        commission_rate: Commission rate
         plot: Whether to plot results
     
     Returns:
@@ -96,7 +133,7 @@ def run_backtest(strategy_class=None, index_name=None,
     from config import start_date as config_start, end_date as config_end, index_name as config_index
     
     # Use config defaults if not provided
-    strategy_class = strategy_class or MidcapMeanReversion
+    strategy_class = strategy_class or ShopStrategy
     start_date = start_date or config_start
     end_date = end_date or config_end
     index_name = index_name or symbols or config_index
@@ -117,13 +154,23 @@ def run_backtest(strategy_class=None, index_name=None,
         )
     
     # Setup cerebro
+    # Derive strategy name if not provided
+    if strategy_name is None:
+        strategy_name = strategy_class.__name__
+    
+    # Derive stock/index name if not provided
+    if stock_name is None:
+        stock_name = index_name if isinstance(index_name, str) else (symbols[0] if symbols else 'Unknown')
+    
     cerebro = setup_cerebro(
         strategy_class=strategy_class,
         data_feeds=data_feeds,
         successful_symbols=successful_symbols,
         strategy_params=strategy_params,
         cash=cash,
-        commission_rate=commission_rate
+        log_trades=log_trades,
+        strategy_name=strategy_name,
+        stock_name=stock_name
     )
     
     # Print initial status
@@ -198,7 +245,19 @@ def display_analyzer_results(strategy):
     drawdown_period = drawdown.get('max', {}).get('len', 0)
     print(f"   Max Drawdown: {max_drawdown:.2f}% (Usually it should be 15-20% or lower)")
     print(f"   Drawdown Period: {drawdown_period} days (Lower is better)")
-    
+
+    # XIRR Analysis
+    xirr = strategy.analyzers.xirr.get_analysis()
+    print(f"\n📈 XIRR ANALYSIS:")
+    xirr_value = xirr.get('xirr', None)
+    if xirr_value is not None:
+        print(f"   XIRR: {xirr_value:.2f}%")
+        print(f"   Initial Value: ₹{xirr.get('initial_value', 0):,.2f}")
+        print(f"   Final Value: ₹{xirr.get('final_value', 0):,.2f}")
+        print(f"   Cash Flows Tracked: {xirr.get('num_cash_flows', 0)}")
+    else:
+        print(f"   XIRR: N/A (insufficient data)")
+
     # Trade Analysis
     trades = strategy.analyzers.trades.get_analysis()
     print(f"\n📊 TRADING STATISTICS:")
