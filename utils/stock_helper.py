@@ -44,3 +44,25 @@ def fetch_stock_data(symbols, start_date, end_date):
     
     return data_feeds, successful_symbols
 
+
+def load_index_data(index_name, start_date, end_date):
+    """
+    Load stock data for an index.
+    
+    Args:
+        index_name: Index name (e.g., 'NIFTY_MIDCAP_50')
+        start_date: Start date string
+        end_date: End date string
+    
+    Returns:
+        Tuple of (data_feeds, successful_symbols)
+    """
+    symbols = get_index_symbols(index_name=index_name)
+    print(f"📊 Found {len(symbols)} symbols in {index_name}")
+    
+    data_feeds, successful_symbols = fetch_stock_data(
+        symbols,
+        start_date=start_date,
+        end_date=end_date,
+    )
+    return data_feeds, successful_symbols

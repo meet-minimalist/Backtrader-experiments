@@ -7,7 +7,7 @@ import warnings
 from math import pow
 warnings.filterwarnings('ignore')
 
-class MidcapMeanReversionWithAnalyzers(bt.Strategy):
+class MidcapMeanReversion(bt.Strategy):
     params = (
         ('max_positions_per_stock', 3),
         ('averaging_down_threshold', 0.03),
