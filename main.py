@@ -1,5 +1,9 @@
 import sys
+import logging
 import backtrader as bt
+
+# Set default logging level to WARNING (suppresses debug/info prints)
+logging.basicConfig(level=logging.WARNING, format='%(levelname)s: %(message)s')
 
 # Fix Windows console encoding for ₹ character
 if sys.stdout.encoding != 'utf-8':

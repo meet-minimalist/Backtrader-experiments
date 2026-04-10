@@ -22,7 +22,7 @@ class StrategyTester:
         Args:
             cash: Starting cash amount (defaults to config value)
         """
-        from config import initial_cash, commission
+        from config import initial_cash
         self.cash = cash if cash is not None else initial_cash
 
 
