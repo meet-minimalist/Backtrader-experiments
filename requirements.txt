@@ -6,3 +6,4 @@ requests==2.32.4
 yfinance==0.2.65
 numpy_financial==1.0.0
 ta-lib==0.6.8
+git+https://github.com/meet-minimalist/yf_cache.git

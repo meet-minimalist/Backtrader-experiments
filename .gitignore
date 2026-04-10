@@ -210,3 +210,6 @@ __marimo__/
 yfinance_data/
 extras/
 trade_logs/
+
+# Cached stock data
+data_cache/

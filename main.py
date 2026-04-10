@@ -228,6 +228,14 @@ def display_analyzer_results(strategy):
     print(f"   Average Return: {average_return:.2f}%")
     print(f"   CAGR: {cagr:.2f}%")
     
+    # XIRR Analysis
+    xirr = strategy.analyzers.xirr.get_analysis()
+    xirr_value = xirr.get('xirr', None)
+    if xirr_value is not None:
+        print(f"   XIRR: {xirr_value:.2f}%")
+    else:
+        print(f"   XIRR: N/A (insufficient data)")
+
     # Annual Returns
     annual_returns = strategy.analyzers.annual_return.get_analysis()
     print(f"   Annual Returns:")
@@ -249,18 +257,6 @@ def display_analyzer_results(strategy):
     drawdown_period = drawdown.get('max', {}).get('len', 0)
     print(f"   Max Drawdown: {max_drawdown:.2f}% (Usually it should be 15-20% or lower)")
     print(f"   Drawdown Period: {drawdown_period} days (Lower is better)")
-
-    # XIRR Analysis
-    xirr = strategy.analyzers.xirr.get_analysis()
-    print(f"\n📈 XIRR ANALYSIS:")
-    xirr_value = xirr.get('xirr', None)
-    if xirr_value is not None:
-        print(f"   XIRR: {xirr_value:.2f}%")
-        print(f"   Initial Value: ₹{xirr.get('initial_value', 0):,.2f}")
-        print(f"   Final Value: ₹{xirr.get('final_value', 0):,.2f}")
-        print(f"   Cash Flows Tracked: {xirr.get('num_cash_flows', 0)}")
-    else:
-        print(f"   XIRR: N/A (insufficient data)")
 
     # Trade Analysis
     trades = strategy.analyzers.trades.get_analysis()

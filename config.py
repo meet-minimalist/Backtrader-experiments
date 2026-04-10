@@ -7,3 +7,6 @@ initial_cash = 1000000
 
 index_name = "NIFTY_50"
 riskfreerate = 0.06
+
+# Data caching: set to True to reuse cached data from disk
+reuse_data = True

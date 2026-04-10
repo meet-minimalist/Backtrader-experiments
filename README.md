@@ -29,7 +29,7 @@ pip install -r requirements.txt
 # 2. Verify data access works (one-time check)
 python -c "from thematicnifty import tn; print('Data access OK')"
 
-# 3. Manually run a single backtest experiment
+# 3. First run will download the stock data and cache it. Subsequent runs will skip the download and use the cached data. Manually run a single backtest experiment
 python main.py
 ```
 
@@ -152,7 +152,7 @@ Each entry includes:
 
 ## Strategy Experiment Ideas
 
-Here are concrete experiments to try, roughly ordered from simple to advanced. All experiments work within a single index (e.g., NIFTY_MIDCAP_50) using only OHLCV data available per stock.
+Here are concrete experiments to try, roughly ordered from simple to advanced. All experiments work within a single index (e.g., NIFTY_50) using only OHLCV data available per stock.
 
 ### Level 1: Parameter Tuning
 - Change `sma_period` from 20 → 10, 30, 50
