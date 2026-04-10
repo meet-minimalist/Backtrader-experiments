@@ -6,7 +6,7 @@ if sys.stdout.encoding != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8')
 
 import inspect
-from strategy import ShopStrategy
+from strategy import SkeletonStrategy
 from analyzers.sortino import SortinoRatio
 from analyzers.trade_logger import TradeLogger
 from analyzers.xirr_analyzer import XIRRAnalyzer
@@ -133,7 +133,7 @@ def run_backtest(strategy_class=None, index_name=None,
     from config import start_date as config_start, end_date as config_end, index_name as config_index
     
     # Use config defaults if not provided
-    strategy_class = strategy_class or ShopStrategy
+    strategy_class = strategy_class or SkeletonStrategy
     start_date = start_date or config_start
     end_date = end_date or config_end
     index_name = index_name or symbols or config_index

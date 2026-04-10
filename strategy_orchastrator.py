@@ -8,7 +8,7 @@ from main import (
 import numpy as np
 
 from utils.formatter import indian_rupee
-
+from strategy import wrap_strategy_with_atr_stop
 
 class StrategyTester:
     """
@@ -189,8 +189,8 @@ if __name__ == "__main__":
     # result = tester.test_index(
     #     strategy_class=ShopStrategy,
     #     index_name='NIFTY_MIDCAP_50',
-    #     start_date='2023-01-01',
-    #     end_date='2024-01-01'
+    #     start_date='2020-01-01',
+    #     end_date='2025-08-31'
     # )
 
     # Example 3: Compare strategies
@@ -221,5 +221,5 @@ if __name__ == "__main__":
         strategies_config=strategies,
         use_index='NIFTY_MIDCAP_50',
         start_date='2023-01-01',
-        end_date='2024-01-01'
+        end_date='2025-08-31'
     )

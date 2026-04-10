@@ -3,4 +3,6 @@ from strategy.shop_strategy import ShopStrategy
 from strategy.rsi_strategy import RSIStrategy
 from strategy.macd_strategy import MACDStrategy
 from strategy.simple_sma_strategy import SimpleSMAStrategy
+from strategy.stop_loss_wrapper import wrap_strategy_with_atr_stop
+from strategy.skeleton_strategy import SkeletonStrategy
 

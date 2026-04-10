@@ -166,31 +166,3 @@ class ShopStrategy(bt.Strategy):
                 if avg_price > 0:
                     pnl_pct = (order.executed.price - avg_price) / avg_price * 100
                     print(f"   P&L: {pnl_pct:+.1f}%")
-
-
-    # def compute_cagr(self, final_value):
-    #     end_date = self.datas[0].datetime.date(0)
-    #     days = (end_date - self.start_date).days
-    #     years = days / 365.0
-        
-    #     # Handle very short periods to avoid division by zero or invalid calculations
-    #     if days <= 0:
-    #         return 0.0
-        
-    #     cagr = (pow((final_value / self.start_value), (1.0 / years)) - 1) * 100
-    #     return cagr
-
-    # def stop(self):
-    #     """Called when backtest ends"""
-    #     final_value = self.broker.getvalue()
-    #     cagr = self.compute_cagr(final_value)
-    #     total_return = (final_value - self.broker.startingcash) / self.broker.startingcash * 100
-
-    #     print("\n" + "="*60)
-    #     print("STRATEGY SUMMARY")
-    #     print("="*60)
-    #     print(f"Initial Capital: ₹{self.broker.startingcash:,.2f}")
-    #     print(f"Final Portfolio: ₹{self.broker.getvalue():,.2f}")
-    #     print(f"Total Return: {total_return:+.2f}%")
-    #     print(f"CAGR: {cagr:+.2f}%")
-                
