@@ -40,7 +40,7 @@ If the above commands all work ok, your setup is working and you can go into aut
 Simply spin up your AI agent (Claude, Codex, Qwen, etc.) in this repo, then you can prompt something like:
 
 ```
-Hi have a look at PROJECT.md and let's kick off a new experiment! Let's do the setup first.
+Hi, please read PROJECT.md validate you have everything and get working.
 ```
 
 The `PROJECT.md` file is essentially a lightweight "skill" that guides autonomous experimentation.

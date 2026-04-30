@@ -167,7 +167,7 @@ class StrategyTester:
 
 # Example usage
 if __name__ == "__main__":
-    from strategy import ShopStrategy, SimpleSMAStrategy, RSIStrategy, MACDStrategy
+    from strategy import ShopStrategy, SimpleSMAStrategy, RSIStrategy, MACDStrategy, GoldenCrossoverStrategy, EmaVolatilityStrategy, NiftyShopStrategy
 
     print("="*80)
     print("Strategy Tester - Lightweight Orchestrator")
@@ -187,10 +187,10 @@ if __name__ == "__main__":
 
     # Example 2: Test on index
     # result = tester.test_index(
-    #     strategy_class=ShopStrategy,
+    #     strategy_class=NiftyShopStrategy,
     #     index_name='NIFTY_MIDCAP_50',
     #     start_date='2020-01-01',
-    #     end_date='2025-08-31'
+    #     end_date='2025-12-31'
     # )
 
     # Example 3: Compare strategies
@@ -201,25 +201,31 @@ if __name__ == "__main__":
             'params': {}
         },
         {
-            'name': 'SimpleSMAStrategy',
-            'class': SimpleSMAStrategy,
-            'params': {'fast_period': 10, 'slow_period': 30}
+            'name': 'NiftyShopStrategy',
+            'class': NiftyShopStrategy,
+            'params': {'printlog': False}
         },
-        {
-            'name': 'RSIStrategy',
-            'class': RSIStrategy,
-            'params': {'rsi_period': 14, 'rsi_lower': 30, 'rsi_upper': 70}
-        },
-        {
-            'name': 'MACDStrategy',
-            'class': MACDStrategy,
-            'params': {'fast_ema': 12, 'slow_ema': 26, 'signal': 9}
-        }
+        # {
+        #     'name': 'SimpleSMAStrategy',
+        #     'class': SimpleSMAStrategy,
+        #     'params': {'fast_period': 10, 'slow_period': 30}
+        # },
+        # {
+        #     'name': 'RSIStrategy',
+        #     'class': RSIStrategy,
+        #     'params': {'rsi_period': 14, 'rsi_lower': 30, 'rsi_upper': 70}
+        # },
+        # {
+        #     'name': 'MACDStrategy',
+        #     'class': MACDStrategy,
+        #     'params': {'fast_ema': 12, 'slow_ema': 26, 'signal': 9}
+        # }
     ]
 
     comparison = tester.compare_strategies(
         strategies_config=strategies,
-        use_index='NIFTY_MIDCAP_50',
-        start_date='2023-01-01',
-        end_date='2025-08-31'
+        # use_index='NIFTY_MIDCAP_50',
+        use_index='^RUT',
+        start_date='2020-01-01',
+        end_date='2025-12-31'
     )
