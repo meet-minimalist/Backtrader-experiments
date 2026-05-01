@@ -60,7 +60,7 @@ class SkeletonStrategy(bt.Strategy):
                 if not (sma200_val > sma200_prev):
                     continue
                 rsi_val = self.rsi[symbol][0]
-                if not (50 < rsi_val < 70):
+                if not (55 < rsi_val < 65):
                     continue
                 cash = self.broker.getcash()
                 if cash > price:
