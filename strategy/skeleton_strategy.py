@@ -1,15 +1,15 @@
 """
-Strategy: EMA crossover + SMA trend + volume filter with ATR volatility-based position sizing.
-Buy when price > SMA(50), EMA10 > EMA20, volume > 1.5x volume SMA(20).
+Strategy: EMA(10/20) crossover + SMA(20) trend + volume filter + ATR volatility sizing.
+Buy when price > SMA(20), EMA10 > EMA20, volume > 1.5x volume SMA(20).
 Position size scaled by 1/ATR (larger when volatility is low).
-Sell when price < SMA(50).
+Sell when price < SMA(20).
 """
 import backtrader as bt
 
 
 class SkeletonStrategy(bt.Strategy):
     params = (
-        ('sma_period', 50),
+        ('sma_period', 20),
         ('ema_fast', 10),
         ('ema_slow', 20),
         ('vol_period', 20),
