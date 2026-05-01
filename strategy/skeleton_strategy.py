@@ -15,7 +15,7 @@ class SkeletonStrategy(bt.Strategy):
         ('vol_period', 20),
         ('vol_multiplier', 1.2),
         ('atr_period', 14),
-        ('position_size_pct', 0.10),
+        ('position_size_pct', 0.15),
         ('symbol_names', []),
     )
 
