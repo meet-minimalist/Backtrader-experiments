@@ -4,8 +4,9 @@ from strategy.rsi_strategy import RSIStrategy
 from strategy.macd_strategy import MACDStrategy
 from strategy.simple_sma_strategy import SimpleSMAStrategy
 from strategy.stop_loss_wrapper import wrap_strategy_with_atr_stop
-from strategy.skeleton_strategy import SkeletonStrategy
 from strategy.golden_crossover import GoldenCrossoverStrategy
 from strategy.ema_volatility import EmaVolatilityStrategy
 from strategy.shop_strategy_v2 import NiftyShopStrategy
+from strategy.skeleton_strategy import SkeletonStrategy
+from strategy.sma_with_stop_loss import SMAWithStopLossStrategy
 

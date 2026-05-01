@@ -213,3 +213,7 @@ trade_logs/
 
 # Cached stock data
 data_cache/
+outputs/
+.claude/
+
+plot.py

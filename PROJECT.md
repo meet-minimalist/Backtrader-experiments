@@ -48,6 +48,7 @@ When a strategy runs, it prints a summary like this:
    Total Return: 45.23%
    Average Return: 0.02%
    CAGR: 12.45%
+   XIRR: 12.83%
    Annual Returns:
      2023: 15.32%
      2024: 12.45%
