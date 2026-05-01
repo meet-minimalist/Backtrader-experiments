@@ -1,6 +1,6 @@
 """
 Strategy: EMA(10/20) crossover + SMA(20) trend + volume filter + ATR volatility sizing.
-Buy when price > SMA(20), EMA10 > EMA20, volume > 1.5x volume SMA(20).
+Buy when price > SMA(20), EMA10 > EMA20, volume > 1.2x volume SMA(20).
 Position size scaled by 1/ATR (larger when volatility is low).
 Sell when price < SMA(20).
 """
@@ -13,7 +13,7 @@ class SkeletonStrategy(bt.Strategy):
         ('ema_fast', 10),
         ('ema_slow', 20),
         ('vol_period', 20),
-        ('vol_multiplier', 1.5),
+        ('vol_multiplier', 1.2),
         ('atr_period', 14),
         ('position_size_pct', 0.10),
         ('symbol_names', []),
