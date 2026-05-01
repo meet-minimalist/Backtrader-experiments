@@ -1,8 +1,8 @@
 """
-Strategy: EMA(10/20) crossover + SMA(20) trend + volume filter + RSI filter + ATR volatility sizing.
-Buy when price > SMA(20), EMA10 > EMA20, volume > 1.3x volume SMA(20), 50 < RSI(14) < 70.
+Strategy: EMA(10/20) crossover + SMA(20) trend + volume filter + RSI filter + ATR volatility sizing + ATR stop-loss.
+Buy when price > SMA(20), EMA10 > EMA20, volume > 1.1x volume SMA(20), 50 < RSI(14) < 70.
 Position size scaled by 1/ATR (larger when volatility is low).
-Sell when price < SMA(20).
+Sell when price < SMA(20) or price < entry - 2*ATR.
 """
 import backtrader as bt
 
@@ -15,10 +15,11 @@ class SkeletonStrategy(bt.Strategy):
         ('ema_fast', 10),
         ('ema_slow', 20),
         ('vol_period', 20),
-        ('vol_multiplier', 1.3),
+        ('vol_multiplier', 1.1),
         ('atr_period', 14),
         ('rsi_period', 14),
         ('position_size_pct', 0.15),
+        ('stop_atr_multiplier', 2.0),
         ('symbol_names', []),
     )
 
@@ -61,10 +62,19 @@ class SkeletonStrategy(bt.Strategy):
                     print(f"BUY {symbol} @ {price:.2f} (size={size})")
                 continue
 
-            if pos and price < sma_val:
-                self.close(data=d)
-                print(f"SELL {symbol} @ {price:.2f}")
-                self.entry_price.pop(symbol, None)
+            if pos:
+                # ATR stop‑loss
+                stop_price = self.entry_price.get(symbol, price) - self.p.stop_atr_multiplier * self.atr[symbol][0]
+                if price < stop_price:
+                    self.close(data=d)
+                    print(f"STOP-LOSS SELL {symbol} @ {price:.2f}")
+                    self.entry_price.pop(symbol, None)
+                    continue
+                # SMA trend exit
+                if price < sma_val:
+                    self.close(data=d)
+                    print(f"SELL {symbol} @ {price:.2f}")
+                    self.entry_price.pop(symbol, None)
 
     def _calc_size(self, cash, price, atr_val):
         base_value = cash * self.p.position_size_pct
