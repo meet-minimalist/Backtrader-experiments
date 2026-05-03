@@ -53,7 +53,7 @@ class TradeLogger(bt.Analyzer):
             self.trade_num += 1
 
             # Calculate trade metrics
-            pnl = trade.pnl
+            pnl = trade.pnlcomm  # Use Net P&L (after commission) instead of Gross
             pnl_pct = (pnl / trade.value) * 100 if trade.value != 0 else 0
             duration = (trade.dtclose - trade.dtopen)
 
