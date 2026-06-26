@@ -3,25 +3,32 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     """
-    Golden Cross + Day-1 Regime Init + Re-entry After Circuit Breaker
+    Golden Cross + Breadth-Filtered Exit + 15% Stop + Regime Re-entry
 
     Logic:
-    - Entry: EMA(50) crosses above EMA(200) [golden cross]
-      OR EMA(50) > EMA(200) AND price > EMA(200) on day 1 [initial regime load]
-      OR EMA(50) > EMA(200) AND price recovers above EMA(200) [after circuit breaker]
-    - Exit: death cross (EMA50 < EMA200) OR price drops >15% below EMA200
+    - Entry: EMA(50) crosses EMA(200) [golden cross]
+      OR EMA(50) > EMA(200) AND price recovers above EMA(200) [regime re-entry]
+    - Exit on death cross ONLY IF market breadth is weak (< 40% stocks above EMA200)
+      OR price drops >15% below EMA200 (circuit breaker - always fires)
+    - If death cross fires but market is broadly bullish, hold (idiosyncratic correction)
     - Position size: 10% of available cash per trade
 
-    Rationale: Exp30 (golden cross only) misses stocks already in golden cross zone
-    at backtest start (2015), and doesn't re-enter after circuit breaker fires
-    during COVID crash while EMA50 still above EMA200.
-    This version enters on: golden cross events + initial regime + post-stop recovery.
+    Rationale: Exp37 (market breadth as ENTRY filter) hurt performance.
+    New approach: use breadth as an EXIT filter only.
+    Annual returns analysis showed Exp39 crushed in 2020 (COVID) because death cross
+    exits freed capital at the WRONG time. But in strong bull years, death cross exits
+    correctly recycle capital. Key distinction:
+    - COVID 2020: market breadth collapsed (30-40% stocks above EMA200) → allow exit
+    - Normal correction of one stock: breadth stays high (60-70%) → hold the position
+    This preserves COVID-crash protection via circuit breaker while allowing
+    single-stock death crosses to be ignored when the market is broadly healthy.
     """
     params = (
         ('slow_period', 200),
         ('fast_period', 50),
         ('crash_stop_pct', 0.15),
         ('position_size_pct', 0.10),
+        ('breadth_threshold', 0.40),
         ('symbol_names', []),
     )
 
@@ -31,7 +38,6 @@ class SkeletonStrategy(bt.Strategy):
         self.golden_cross = {}
         self.price_ema_slow_cross = {}
         self.symbol_to_data = {d._name: d for d in self.datas}
-        self._initialized = False
 
         for d in self.datas:
             symbol = d._name
@@ -40,7 +46,18 @@ class SkeletonStrategy(bt.Strategy):
             self.golden_cross[symbol] = bt.indicators.CrossOver(self.ema_fast[symbol], self.ema_slow[symbol])
             self.price_ema_slow_cross[symbol] = bt.indicators.CrossOver(d.close, self.ema_slow[symbol])
 
+    def _market_breadth(self):
+        total = len(self.datas)
+        above_ema200 = sum(
+            1 for d in self.datas
+            if self.ema_fast[d._name][0] > self.ema_slow[d._name][0]
+        )
+        return above_ema200 / total if total > 0 else 0.5
+
     def next(self):
+        breadth = self._market_breadth()
+        weak_market = breadth < self.p.breadth_threshold
+
         for symbol, d in self.symbol_to_data.items():
             pos = self.getposition(d)
             golden = self.golden_cross[symbol][0]
@@ -51,19 +68,17 @@ class SkeletonStrategy(bt.Strategy):
             in_regime = ema_fast > ema_slow
 
             if not pos:
-                # Enter on: golden cross OR (in regime AND price recovers above EMA200)
-                should_enter = (
-                    golden > 0 or
-                    (in_regime and price_cross > 0)
-                )
-                if should_enter:
+                signal = (golden > 0 or (in_regime and price_cross > 0))
+                if signal:
                     cash = self.broker.getcash()
                     if cash > price:
                         size = self._calc_size(cash, price)
                         self.buy(data=d, size=size)
             else:
                 hard_stop = ema_slow * (1 - self.p.crash_stop_pct)
-                if golden < 0 or price < hard_stop:
+                # Exit on death cross only during market-wide weakness
+                # Circuit breaker always fires regardless of market state
+                if (golden < 0 and weak_market) or price < hard_stop:
                     self.close(data=d)
 
     def _calc_size(self, cash, price):
