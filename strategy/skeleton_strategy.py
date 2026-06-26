@@ -3,21 +3,20 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     """
-    EMA Crossover + SMA(50) Trend Filter
+    EMA(20/50) Crossover Trend Following
 
     Logic:
-    - Uses 12-period EMA (fast), 26-period EMA (slow), and SMA(50) as trend filter
-    - Entry: fast EMA crosses above slow EMA AND price is above SMA(50)
-    - Exit: fast EMA crosses below slow EMA OR price drops below SMA(50)
+    - Uses 20-period EMA (fast) and 50-period EMA (slow) per stock
+    - Entry: EMA(20) crosses above EMA(50) - golden cross (longer-term signal)
+    - Exit: EMA(20) crosses below EMA(50) - death cross
     - Position size: 10% of available cash per trade
 
-    Rationale: Adding a long-term trend filter (SMA50) to the EMA crossover reduces
-    false signals in downtrending stocks, keeping us on the right side of the trend.
+    Rationale: Longer EMA periods (20/50 vs 12/26) generate fewer, higher-quality
+    signals on NIFTY_50 stocks, reducing whipsaw in choppy periods.
     """
     params = (
-        ('fast_period', 12),
-        ('slow_period', 26),
-        ('trend_period', 50),
+        ('fast_period', 20),
+        ('slow_period', 50),
         ('position_size_pct', 0.10),
         ('symbol_names', []),
     )
@@ -25,7 +24,6 @@ class SkeletonStrategy(bt.Strategy):
     def __init__(self):
         self.fast_ema = {}
         self.slow_ema = {}
-        self.trend_sma = {}
         self.crossover = {}
         self.symbol_to_data = {d._name: d for d in self.datas}
 
@@ -33,7 +31,6 @@ class SkeletonStrategy(bt.Strategy):
             symbol = d._name
             self.fast_ema[symbol] = bt.indicators.EMA(d.close, period=self.p.fast_period)
             self.slow_ema[symbol] = bt.indicators.EMA(d.close, period=self.p.slow_period)
-            self.trend_sma[symbol] = bt.indicators.SMA(d.close, period=self.p.trend_period)
             self.crossover[symbol] = bt.indicators.CrossOver(
                 self.fast_ema[symbol], self.slow_ema[symbol]
             )
@@ -42,18 +39,17 @@ class SkeletonStrategy(bt.Strategy):
         for symbol, d in self.symbol_to_data.items():
             pos = self.getposition(d)
             cross = self.crossover[symbol][0]
-            price = d.close[0]
-            trend = self.trend_sma[symbol][0]
 
-            # ENTRY: bullish crossover AND price in uptrend (above SMA50)
-            if not pos and cross > 0 and price > trend:
+            # ENTRY: EMA20 crosses above EMA50
+            if not pos and cross > 0:
                 cash = self.broker.getcash()
+                price = d.close[0]
                 if cash > price:
                     size = self._calc_size(cash, price)
                     self.buy(data=d, size=size)
 
-            # EXIT: bearish crossover OR price breaks below trend filter
-            elif pos and (cross < 0 or price < trend):
+            # EXIT: EMA20 crosses below EMA50
+            elif pos and cross < 0:
                 self.close(data=d)
 
     def _calc_size(self, cash, price):
