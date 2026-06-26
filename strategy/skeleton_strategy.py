@@ -3,36 +3,33 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     """
-    SMA(200) Trend Following with Hard Stop Loss
+    EMA(200) Trend Following - Exponential vs Simple Moving Average
 
     Logic:
-    - Entry: price crosses above SMA(200)
-    - Exit: price drops below SMA(200) OR price falls 12% below entry price
+    - Entry: price crosses above EMA(200) (exponential, more responsive than SMA)
+    - Exit: price drops below EMA(200)
     - Position size: 10% of available cash per trade
 
-    Rationale: SMA200 baseline (3.09% XIRR, 18.16% drawdown) is best so far.
-    Adding a 12% hard stop loss prevents individual positions from contributing
-    to large drawdowns while keeping the trend-following core intact.
-    This should improve Sharpe/Sortino without sacrificing much XIRR.
+    Rationale: EMA(200) responds faster to recent price changes than SMA(200).
+    In trend reversals (like COVID recovery), EMA200 would cross earlier than SMA200,
+    potentially capturing more of the initial upswing. In downtrends, EMA200 also
+    exits faster (better downside protection). This tests if faster response helps.
     """
     params = (
         ('trend_period', 200),
-        ('stop_loss_pct', 0.12),
         ('position_size_pct', 0.10),
         ('symbol_names', []),
     )
 
     def __init__(self):
-        self.sma200 = {}
+        self.ema200 = {}
         self.crossover = {}
-        self.entry_price = {}
         self.symbol_to_data = {d._name: d for d in self.datas}
 
         for d in self.datas:
             symbol = d._name
-            self.sma200[symbol] = bt.indicators.SMA(d.close, period=self.p.trend_period)
-            self.crossover[symbol] = bt.indicators.CrossOver(d.close, self.sma200[symbol])
-            self.entry_price[symbol] = 0.0
+            self.ema200[symbol] = bt.indicators.EMA(d.close, period=self.p.trend_period)
+            self.crossover[symbol] = bt.indicators.CrossOver(d.close, self.ema200[symbol])
 
     def next(self):
         for symbol, d in self.symbol_to_data.items():
@@ -40,20 +37,13 @@ class SkeletonStrategy(bt.Strategy):
             price = d.close[0]
             cross = self.crossover[symbol][0]
 
-            if not pos:
-                if cross > 0:
-                    cash = self.broker.getcash()
-                    if cash > price:
-                        size = self._calc_size(cash, price)
-                        self.buy(data=d, size=size)
-                        self.entry_price[symbol] = price
-            else:
-                ep = self.entry_price[symbol]
-                stop_hit = ep > 0 and price <= ep * (1 - self.p.stop_loss_pct)
-                sma_break = cross < 0
-                if stop_hit or sma_break:
-                    self.close(data=d)
-                    self.entry_price[symbol] = 0.0
+            if not pos and cross > 0:
+                cash = self.broker.getcash()
+                if cash > price:
+                    size = self._calc_size(cash, price)
+                    self.buy(data=d, size=size)
+            elif pos and cross < 0:
+                self.close(data=d)
 
     def _calc_size(self, cash, price):
         value = cash * self.p.position_size_pct

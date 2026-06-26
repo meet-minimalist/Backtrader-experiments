@@ -11,3 +11,12 @@ efb24a0	3.06	0.57	0.56	18.16	discard	SMA200 + first-bar entry (marginal worse)
 9bf43ad	0.05	-0.74	-1.02	15.30	discard	SMA200 + top-15 momentum ranking (too restrictive)
 a9884b3	2.97	0.59	0.59	21.34	discard	SMA200 15% position size (higher drawdown)
 cded1bd	1.97	0.44	0.41	17.97	discard	SMA150 crossover (more whipsaw than SMA200)
+af41d07	3.09	0.59	0.59	18.16	keep	SMA200 + 12% stop loss (stop never fires)
+1053dd1	2.16	0.48	0.47	18.00	discard	SMA200 + top-25 momentum entry filter
+4f9959a	-0.16	-0.52	-0.61	25.48	discard	dip below SMA20 while above SMA200 (buys falling)
+de82af7	0.00	-2.08	-3.16	4.12	discard	RSI<35 + SMA100 trend (too restrictive - barely trades)
+c9e9160	2.02	0.70	0.67	33.79	discard	monthly momentum top-10 (Sharpe up but 33% drawdown)
+cb59759	-4.61	0.53	0.50	22.98	discard	NiftyShop mean reversion - averaging down hurts in crashes
+18e058b	3.03	0.51	0.50	15.11	discard	SMA200 5% position size (lower drawdown but Sharpe worse)
+75b1d09	0.18	-0.22	-0.28	18.21	discard	Donchian breakout 20/10 day (too many false signals)
+648f1dc	0.00	-0.47	-0.63	16.61	discard	SMA200 + ADX>25 entry/exit (too restrictive)
