@@ -21,3 +21,10 @@ cb59759	-4.61	0.53	0.50	22.98	discard	NiftyShop mean reversion - averaging down 
 75b1d09	0.18	-0.22	-0.28	18.21	discard	Donchian breakout 20/10 day (too many false signals)
 648f1dc	0.00	-0.47	-0.63	16.61	discard	SMA200 + ADX>25 entry/exit (too restrictive)
 efa8591	3.21	0.65	0.66	16.63	keep	EMA200 crossover - beats SMA200 on all metrics
+070efb3	4.38	0.50	0.50	16.23	keep	EMA200 + EMA50 dual uptrend confirmation (XIRR breakthrough)
+1f0e26a	4.38	0.50	0.50	16.23	discard	EMA50/200 dual + death cross exit (identical to Exp21)
+2693d41	4.22	0.56	0.57	16.25	discard	EMA200 + EMA100 confirmation (wider, worse XIRR)
+f8e8bd7	4.49	0.42	0.41	16.58	discard	EMA200 + EMA30 (better XIRR but much worse Sharpe)
+d56f230	-2.43	-0.04	-0.09	24.33	discard	EMA50 exit (too many false exits/re-entries)
+dac4b76	0.38	-0.08	-0.14	9.24	discard	ATR trailing stop exit (cuts positions too early)
+b90b7a1	4.33	0.52	0.51	19.50	discard	EMA200+EMA50 15% position (higher drawdown vs 10%)

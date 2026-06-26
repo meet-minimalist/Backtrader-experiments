@@ -3,18 +3,19 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     """
-    EMA(200) + EMA(50) Dual Trend Confirmation
+    Golden Cross / Death Cross: EMA50 vs EMA200
 
     Logic:
-    - Entry: price crosses above EMA(200) AND EMA(50) > EMA(200)
-      (medium-term AND long-term trend both aligned upward)
-    - Exit: price drops below EMA(200)
+    - Entry: EMA(50) crosses above EMA(200) — golden cross
+    - Exit: EMA(50) drops below EMA(200) — death cross
+    - Hold through normal price volatility; only trade on major trend changes
     - Position size: 10% of available cash per trade
 
-    Rationale: EMA(200) crossover gave 3.21% XIRR (best so far).
-    Adding EMA(50) as dual confirmation filters false crossovers where
-    price briefly touches EMA(200) but medium-term trend is still down.
-    EMA(50) > EMA(200) means the stock is in a confirmed multi-period uptrend.
+    Rationale: Instead of waiting for price to cross EMA200, we enter when the
+    medium-term (EMA50) definitively exceeds the long-term (EMA200). This golden
+    cross fires once per trend, not every time price bounces off EMA200.
+    Death cross exit means we stay invested through pullbacks that don't break
+    the medium-term trend. Classic institutional signal for major trend changes.
     """
     params = (
         ('slow_period', 200),
@@ -26,32 +27,31 @@ class SkeletonStrategy(bt.Strategy):
     def __init__(self):
         self.ema_slow = {}
         self.ema_fast = {}
-        self.crossover = {}
+        self.golden_cross = {}
         self.symbol_to_data = {d._name: d for d in self.datas}
 
         for d in self.datas:
             symbol = d._name
             self.ema_slow[symbol] = bt.indicators.EMA(d.close, period=self.p.slow_period)
             self.ema_fast[symbol] = bt.indicators.EMA(d.close, period=self.p.fast_period)
-            self.crossover[symbol] = bt.indicators.CrossOver(d.close, self.ema_slow[symbol])
+            # Cross of EMA50 vs EMA200 (not price vs EMA)
+            self.golden_cross[symbol] = bt.indicators.CrossOver(self.ema_fast[symbol], self.ema_slow[symbol])
 
     def next(self):
         for symbol, d in self.symbol_to_data.items():
             pos = self.getposition(d)
-            price = d.close[0]
-            cross = self.crossover[symbol][0]
-            ema_slow = self.ema_slow[symbol][0]
-            ema_fast = self.ema_fast[symbol][0]
+            cross = self.golden_cross[symbol][0]
 
             if not pos:
-                # Enter only when price crosses EMA200 AND EMA50 > EMA200 (dual confirmation)
-                if cross > 0 and ema_fast > ema_slow:
+                # Golden cross: EMA50 crosses above EMA200
+                if cross > 0:
                     cash = self.broker.getcash()
+                    price = d.close[0]
                     if cash > price:
                         size = self._calc_size(cash, price)
                         self.buy(data=d, size=size)
             else:
-                # Exit on EMA200 breach
+                # Death cross: EMA50 drops below EMA200
                 if cross < 0:
                     self.close(data=d)
 
