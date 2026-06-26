@@ -3,30 +3,27 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     """
-    Golden Cross + Breadth-Filtered Exit + 15% Stop + Regime Re-entry
+    Golden Cross + Breadth-Filtered Death Cross + 20% Circuit Breaker
 
     Logic:
     - Entry: EMA(50) crosses EMA(200) [golden cross]
       OR EMA(50) > EMA(200) AND price recovers above EMA(200) [regime re-entry]
     - Exit on death cross ONLY IF market breadth is weak (< 40% stocks above EMA200)
-      OR price drops >15% below EMA200 (circuit breaker - always fires)
-    - If death cross fires but market is broadly bullish, hold (idiosyncratic correction)
+      OR price drops >20% below EMA200 (circuit breaker - always fires, wider than 15%)
     - Position size: 10% of available cash per trade
 
-    Rationale: Exp37 (market breadth as ENTRY filter) hurt performance.
-    New approach: use breadth as an EXIT filter only.
-    Annual returns analysis showed Exp39 crushed in 2020 (COVID) because death cross
-    exits freed capital at the WRONG time. But in strong bull years, death cross exits
-    correctly recycle capital. Key distinction:
-    - COVID 2020: market breadth collapsed (30-40% stocks above EMA200) → allow exit
-    - Normal correction of one stock: breadth stays high (60-70%) → hold the position
-    This preserves COVID-crash protection via circuit breaker while allowing
-    single-stock death crosses to be ignored when the market is broadly healthy.
+    Rationale: Exp53 (15% stop + breadth-filtered death cross) got 9.26% XIRR.
+    The 15% circuit breaker fires unnecessarily in normal corrections (2016: individual
+    stocks falling 15-18% from EMA200, recovering shortly after). Widening to 20% means:
+    - 2016/2018 corrections (15-18% from EMA200): circuit breaker doesn't fire, HOLD
+    - COVID crash (37% from peak = easily 20%+ from EMA200): circuit breaker fires
+    The wider stop might increase max drawdown slightly but improve XIRR through
+    better captures of post-correction recoveries.
     """
     params = (
         ('slow_period', 200),
         ('fast_period', 50),
-        ('crash_stop_pct', 0.15),
+        ('crash_stop_pct', 0.20),
         ('position_size_pct', 0.10),
         ('breadth_threshold', 0.40),
         ('symbol_names', []),

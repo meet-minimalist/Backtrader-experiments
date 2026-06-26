@@ -53,3 +53,6 @@ c3c0830	8.43	0.52	0.51	22.05	discard	crash-only exit no death cross (worse XIRR+
 59f9f4f	8.68	0.62	0.62	21.39	discard	dual-confirm death cross (identical to Exp39)
 8c0ee47	8.31	0.61	0.61	21.32	discard	30-day delayed death cross (fewer trades but worse XIRR)
 0cc23d0	8.46	0.54	0.51	26.67	discard	death cross exit only no circuit breaker (worse drawdown)
+b107e8f	9.26	0.55	0.53	21.20	keep	breadth-filtered exit: death cross only when <40% stocks above EMA200 (NEW BEST)
+6238cd3	14.78	0.57	0.52	36.62	discard	breadth-filtered death cross only no circuit breaker (37% drawdown too high)
+1ca72ad	10.80	0.48	0.44	32.39	discard	breadth-gated both exits - 2020 terrible -3.88% (32% drawdown)
