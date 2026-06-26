@@ -28,3 +28,5 @@ f8e8bd7	4.49	0.42	0.41	16.58	discard	EMA200 + EMA30 (better XIRR but much worse 
 d56f230	-2.43	-0.04	-0.09	24.33	discard	EMA50 exit (too many false exits/re-entries)
 dac4b76	0.38	-0.08	-0.14	9.24	discard	ATR trailing stop exit (cuts positions too early)
 b90b7a1	4.33	0.52	0.51	19.50	discard	EMA200+EMA50 15% position (higher drawdown vs 10%)
+4490250	8.48	0.56	0.55	26.90	keep	golden cross EMA50/200 - huge XIRR jump (high drawdown)
+30d86eb	1.22	0.55	0.56	14.92	discard	golden cross entry + EMA200 price exit (too many exits)
