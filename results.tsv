@@ -6,3 +6,8 @@ fe8eb7a	0.07	0.54	0.54	18.39	keep	EMA 12/26 + SMA50 trend filter (lower drawdown
 25e88ac	0.00	0.00	0.00	0.00	crash	MACD crash (wrong bt.indicators.MACD params)
 2ba6b8a	-0.05	-0.47	-0.54	14.36	discard	manual MACD + RSI<60 + SMA50 (too restrictive)
 b8b8aad	-0.01	-1.66	-2.28	6.25	discard	Bollinger Band dip-buy + SMA50 (too restrictive)
+fa68635	3.09	0.59	0.59	18.16	keep	SMA200 crossover long-hold trend following
+efb24a0	3.06	0.57	0.56	18.16	discard	SMA200 + first-bar entry (marginal worse)
+9bf43ad	0.05	-0.74	-1.02	15.30	discard	SMA200 + top-15 momentum ranking (too restrictive)
+a9884b3	2.97	0.59	0.59	21.34	discard	SMA200 15% position size (higher drawdown)
+cded1bd	1.97	0.44	0.41	17.97	discard	SMA150 crossover (more whipsaw than SMA200)
