@@ -3,19 +3,19 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     """
-    Golden Cross + Circuit Breaker (15% hard stop below EMA200)
+    Golden Cross + Day-1 Regime Init + Re-entry After Circuit Breaker
 
     Logic:
-    - Entry: EMA(50) crosses above EMA(200) — golden cross
+    - Entry: EMA(50) crosses above EMA(200) [golden cross]
+      OR EMA(50) > EMA(200) AND price > EMA(200) on day 1 [initial regime load]
+      OR EMA(50) > EMA(200) AND price recovers above EMA(200) [after circuit breaker]
     - Exit: death cross (EMA50 < EMA200) OR price drops >15% below EMA200
-    - The circuit breaker exits during crashes before death cross fires
     - Position size: 10% of available cash per trade
 
-    Rationale: Exp28 (golden cross/death cross) achieved 8.48% XIRR but 26.90% drawdown.
-    The 26.90% drawdown occurs because in crashes (2020), price falls far below EMA200
-    before EMA50 eventually crosses below EMA200. A 15% circuit breaker exits early
-    during severe crashes, capping loss without disrupting normal trend holds.
-    15% chosen to avoid triggering on normal market pullbacks (typically 5-10%).
+    Rationale: Exp30 (golden cross only) misses stocks already in golden cross zone
+    at backtest start (2015), and doesn't re-enter after circuit breaker fires
+    during COVID crash while EMA50 still above EMA200.
+    This version enters on: golden cross events + initial regime + post-stop recovery.
     """
     params = (
         ('slow_period', 200),
@@ -29,31 +29,41 @@ class SkeletonStrategy(bt.Strategy):
         self.ema_slow = {}
         self.ema_fast = {}
         self.golden_cross = {}
+        self.price_ema_slow_cross = {}
         self.symbol_to_data = {d._name: d for d in self.datas}
+        self._initialized = False
 
         for d in self.datas:
             symbol = d._name
             self.ema_slow[symbol] = bt.indicators.EMA(d.close, period=self.p.slow_period)
             self.ema_fast[symbol] = bt.indicators.EMA(d.close, period=self.p.fast_period)
             self.golden_cross[symbol] = bt.indicators.CrossOver(self.ema_fast[symbol], self.ema_slow[symbol])
+            self.price_ema_slow_cross[symbol] = bt.indicators.CrossOver(d.close, self.ema_slow[symbol])
 
     def next(self):
         for symbol, d in self.symbol_to_data.items():
             pos = self.getposition(d)
-            cross = self.golden_cross[symbol][0]
+            golden = self.golden_cross[symbol][0]
+            price_cross = self.price_ema_slow_cross[symbol][0]
             price = d.close[0]
             ema_slow = self.ema_slow[symbol][0]
+            ema_fast = self.ema_fast[symbol][0]
+            in_regime = ema_fast > ema_slow
 
             if not pos:
-                if cross > 0:
+                # Enter on: golden cross OR (in regime AND price recovers above EMA200)
+                should_enter = (
+                    golden > 0 or
+                    (in_regime and price_cross > 0)
+                )
+                if should_enter:
                     cash = self.broker.getcash()
                     if cash > price:
                         size = self._calc_size(cash, price)
                         self.buy(data=d, size=size)
             else:
-                # Death cross OR price falls >15% below EMA200 (crash circuit breaker)
                 hard_stop = ema_slow * (1 - self.p.crash_stop_pct)
-                if cross < 0 or price < hard_stop:
+                if golden < 0 or price < hard_stop:
                     self.close(data=d)
 
     def _calc_size(self, cash, price):
