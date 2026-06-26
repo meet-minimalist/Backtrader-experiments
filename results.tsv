@@ -1,1 +1,8 @@
 commit	xirr	sharpe	sortino	drawdown	status	description
+5dc4187	-3.21	0.01	-0.06	36.06	keep	baseline (SMA50 mean reversion)
+d914a53	0.21	0.53	0.50	22.29	keep	EMA 12/26 crossover trend following
+fe8eb7a	0.07	0.54	0.54	18.39	keep	EMA 12/26 + SMA50 trend filter (lower drawdown)
+79b90fa	0.51	0.57	0.55	17.80	keep	EMA 20/50 crossover - longer period
+25e88ac	0.00	0.00	0.00	0.00	crash	MACD crash (wrong bt.indicators.MACD params)
+2ba6b8a	-0.05	-0.47	-0.54	14.36	discard	manual MACD + RSI<60 + SMA50 (too restrictive)
+b8b8aad	-0.01	-1.66	-2.28	6.25	discard	Bollinger Band dip-buy + SMA50 (too restrictive)
