@@ -20,3 +20,4 @@ cb59759	-4.61	0.53	0.50	22.98	discard	NiftyShop mean reversion - averaging down 
 18e058b	3.03	0.51	0.50	15.11	discard	SMA200 5% position size (lower drawdown but Sharpe worse)
 75b1d09	0.18	-0.22	-0.28	18.21	discard	Donchian breakout 20/10 day (too many false signals)
 648f1dc	0.00	-0.47	-0.63	16.61	discard	SMA200 + ADX>25 entry/exit (too restrictive)
+efa8591	3.21	0.65	0.66	16.63	keep	EMA200 crossover - beats SMA200 on all metrics
