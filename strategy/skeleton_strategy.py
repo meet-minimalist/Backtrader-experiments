@@ -105,6 +105,7 @@ class SkeletonStrategy(bt.Strategy):
                 kept.add(d._name)
             else:
                 self.close(data=d)
+                self.cooldown_until[d._name] = self.bar_count + self.p.cooldown_bars
 
         # Fill free slots with top-ranked new entrants, roughly equal-weight
         slots = self.p.top_n - len(kept)
