@@ -20,3 +20,4 @@ a2bd46d	161.28	8.24	0.83	0.85	19.57	discard	top 15 w/ hysteresis: DD worse Calma
 b052086	335.11	19.54	0.73	0.73	17.15	keep	momentum lookback 189: Calmar +63% but Sharpe/CAGR easing - watch
 8fd1e53	375.58	21.54	0.59	0.57	17.44	discard	inverse-vol sizing idled capital: Sharpe -0.14 CAGR 12% - XIRR gain is artifact
 71c849b	210.81	11.70	0.69	0.68	18.02	discard	SMA175 exit worse everywhere - SMA150 is sweet spot
+c84cb74	172.07	10.80	0.64	0.63	15.93	discard	min momentum 10% cut breadth too much
