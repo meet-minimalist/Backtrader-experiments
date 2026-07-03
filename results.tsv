@@ -1,1 +1,3 @@
 commit	xirr	sharpe	sortino	drawdown	status	description
+955b003	14.57	0.01	-0.06	36.06	keep	baseline (SkeletonStrategy: buy below SMA50 / sell above SMA50 with 10% cash per trade)
+a824e56	13.93	0.37	0.28	41.79	discard	monthly momentum rotation top5 by 126d return - XIRR -0.6 and DD +5.7 vs baseline despite better Sharpe
