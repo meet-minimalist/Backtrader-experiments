@@ -24,3 +24,4 @@ c84cb74	172.07	10.80	0.64	0.63	15.93	discard	min momentum 10% cut breadth too mu
 d6e2fbc	118.48	6.35	0.72	0.71	18.66	discard	2% exit tolerance band deepened DD and cut XIRR
 042b0d4	283.11	15.71	0.71	0.71	18.02	discard	momentum skip 5 worse than 10
 66d32b9	406.58	19.74	0.69	0.68	20.60	discard	lookback 168: Calmar flat but Sharpe/DD/CAGR all worse
+7eb81bd	205.41	11.34	0.71	0.71	18.12	discard	lookback 210 worse - 189 is local optimum
