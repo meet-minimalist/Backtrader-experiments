@@ -3,10 +3,13 @@ Momentum rotation strategy.
 
 Logic:
 - Universe: all stocks in the configured index (multi-feed).
-- Every `rebalance_every` bars (~monthly), rank eligible stocks by
-  12-1 momentum: 12-month (252-bar) return skipping the most recent
-  month (21 bars) to avoid short-term reversal noise.
-- Hold the top `top_n` stocks, roughly equal-weighted.
+- Every `rebalance_every` bars (weekly, 5), rank eligible stocks by
+  dual-horizon momentum: 189-bar return + 63-bar return, both measured
+  up to `momentum_skip` (10) bars ago to avoid short-term reversal noise.
+- Hold the top `top_n` (20) stocks, roughly equal-weighted (0.98 of an
+  equal slot of portfolio value).
+- Re-entry cooldown: after any sell, the name cannot be rebought for
+  `cooldown_bars` (10) bars.
 - Eligibility: stock must have enough history and trade above its
   150-day SMA (trend filter).
 - Rank hysteresis: buy only from the top N ranks, but keep holding
