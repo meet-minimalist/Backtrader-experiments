@@ -37,3 +37,4 @@ b942120	394.08	24.16	0.72	0.71	16.31	keep	cooldown on rebalance sells too: margi
 62233bb	409.44	24.91	0.76	0.77	16.44	keep	slot sizing 0.98: less cash drag all metrics up
 42335d4	402.85	24.71	0.73	0.73	16.30	discard	slot 1.00 slightly worse than 0.98
 75e9b28	483.62	29.42	0.71	0.71	16.44	keep	dual-horizon momentum 189+63: Calmar +18% Sharpe -0.05 at edge
+9854a53	431.02	25.29	0.63	0.63	17.04	discard	2x weight on 63-bar term worse - equal weights better
