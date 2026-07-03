@@ -31,6 +31,7 @@ class SkeletonStrategy(bt.Strategy):
         ('rebalance_every', 5),     # bars between rebalances
         ('hold_buffer_mult', 2),    # keep holdings while in top N*mult ranks
         ('trail_pct', 0.15),        # trailing stop below post-entry high close
+        ('cooldown_bars', 10),      # bars to wait before re-buying after a daily exit
         ('symbol_names', []),       # required for multi-stock support
     )
 
@@ -41,6 +42,7 @@ class SkeletonStrategy(bt.Strategy):
         self.symbol_to_data = {d._name: d for d in self.datas}
         self.bar_count = 0
         self.high_water = {}  # symbol -> highest close while holding
+        self.cooldown_until = {}  # symbol -> bar_count when re-entry allowed
 
     def _momentum(self, d):
         """12-1 momentum: return from -252 to -21 bars; None if too short."""
@@ -74,6 +76,7 @@ class SkeletonStrategy(bt.Strategy):
             stop_hit = d.close[0] < hw * (1.0 - self.p.trail_pct)
             if trend_break or stop_hit:
                 self.close(data=d)
+                self.cooldown_until[name] = self.bar_count + self.p.cooldown_bars
 
         # Rebalance on schedule
         if self.bar_count % self.p.rebalance_every != 0:
@@ -105,7 +108,9 @@ class SkeletonStrategy(bt.Strategy):
 
         # Fill free slots with top-ranked new entrants, roughly equal-weight
         slots = self.p.top_n - len(kept)
-        to_buy = [name for name in buy_list if name not in kept][:max(slots, 0)]
+        to_buy = [name for name in buy_list
+                  if name not in kept
+                  and self.bar_count >= self.cooldown_until.get(name, 0)][:max(slots, 0)]
         if not to_buy:
             return
         slot_value = self.broker.getvalue() / self.p.top_n * 0.95
