@@ -33,3 +33,4 @@ ee0374f	385.24	23.29	0.74	0.74	16.54	keep	10-bar re-entry cooldown after exits: 
 e04d3ae	377.71	30.46	-0.17	-0.28	12.40	discard	kill switch deadlocks below high-water: CAGR 4.6% Sharpe negative
 2890632	290.89	19.35	0.72	0.72	15.03	discard	SMA20 entry confirmation cut DD but XIRR fell more
 38129a3	405.15	22.22	0.69	0.69	18.23	discard	15-bar cooldown worse than 10
+b942120	394.08	24.16	0.72	0.71	16.31	keep	cooldown on rebalance sells too: marginal Calmar gain
