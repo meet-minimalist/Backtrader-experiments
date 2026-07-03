@@ -6,3 +6,4 @@ bbbc2d3	30.15	0.92	0.39	0.36	32.94	keep	momentum rotation top-5 monthly + SMA200
 af8331c	34.01	1.29	0.48	0.45	26.38	keep	12-1 momentum (252 skip 21) raised XIRR and cut DD
 224ea52	53.57	1.96	0.73	0.73	27.33	keep	faster trend exit SMA150 nearly doubled XIRR
 4d824e5	48.43	1.96	0.27	0.23	24.77	discard	SMA100 exit: Calmar flat but Sharpe collapsed (whipsaws)
+2dbe8de	52.45	2.10	0.65	0.65	25.02	keep	top 7 holdings: better Calmar and DD, small Sharpe dip
