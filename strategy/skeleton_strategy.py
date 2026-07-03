@@ -9,8 +9,11 @@ Logic:
 - Hold the top `top_n` stocks, roughly equal-weighted.
 - Eligibility: stock must have enough history and trade above its
   150-day SMA (trend filter).
+- Rank hysteresis: buy only from the top N ranks, but keep holding
+  until a stock falls out of the top `hold_buffer_mult` x N ranks.
+  This cuts churn from rank jitter at fast rebalance cadences.
 - Exits (explicit, realized):
-  1. Rebalance exit: position leaves the top-N momentum list -> close.
+  1. Rebalance exit: position falls out of the hold buffer -> close.
   2. Trend exit (checked daily): price closes below SMA150 -> close.
 """
 
@@ -23,7 +26,8 @@ class SkeletonStrategy(bt.Strategy):
         ('momentum_skip', 21),      # skip most recent bars (12-1 momentum)
         ('trend_period', 150),      # SMA trend filter / exit
         ('top_n', 20),               # number of positions to hold
-        ('rebalance_every', 5),    # bars between rebalances (~1 month)
+        ('rebalance_every', 5),     # bars between rebalances
+        ('hold_buffer_mult', 2),    # keep holdings while in top N*mult ranks
         ('symbol_names', []),       # required for multi-stock support
     )
 
@@ -72,17 +76,24 @@ class SkeletonStrategy(bt.Strategy):
             if mom is not None and mom > 0:
                 ranked.append((mom, d._name))
         ranked.sort(reverse=True)
-        targets = {name for _, name in ranked[:self.p.top_n]}
+        names_sorted = [name for _, name in ranked]
+        buy_list = names_sorted[:self.p.top_n]
+        hold_buffer = set(names_sorted[:self.p.top_n * self.p.hold_buffer_mult])
 
-        # Sell positions that dropped out of the target list
+        # Sell positions that fell out of the hold buffer
+        kept = set()
         for d in self.datas:
             pos = self.getposition(d)
-            if pos and d._name not in targets:
+            if not pos:
+                continue
+            if d._name in hold_buffer:
+                kept.add(d._name)
+            else:
                 self.close(data=d)
 
-        # Buy new entrants, roughly equal-weight
-        current = {d._name for d in self.datas if self.getposition(d)}
-        to_buy = [name for name in targets if name not in current]
+        # Fill free slots with top-ranked new entrants, roughly equal-weight
+        slots = self.p.top_n - len(kept)
+        to_buy = [name for name in buy_list if name not in kept][:max(slots, 0)]
         if not to_buy:
             return
         slot_value = self.broker.getvalue() / self.p.top_n * 0.95
