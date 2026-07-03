@@ -1,44 +1,62 @@
+"""
+Momentum Rotation Strategy
+==========================
+Logic:
+- Every `rebalance_days` bars, rank all stocks by their trailing
+  `lookback`-day return (momentum).
+- Hold the top `top_n` stocks, equal-weighted by portfolio value.
+- Exit any held stock that drops out of the top ranks.
+- Sells are submitted before buys so freed cash can fund new entries
+  on the next bar.
+
+Rationale: cross-sectional momentum is a persistent anomaly; Indian
+large caps trended strongly 2015-2024, so rotating into recent winners
+should beat the counter-trend skeleton baseline.
+"""
+
 import backtrader as bt
 
 
 class SkeletonStrategy(bt.Strategy):
     params = (
-        ('sma_period', 50),            # SMA look‑back period
-        ('position_size_pct', 0.10),   # % of cash to allocate per trade
-        ('symbol_names', []),          # required for multi‑stock support
+        ('lookback', 126),        # momentum look-back in bars (~6 months)
+        ('top_n', 5),             # number of stocks to hold
+        ('rebalance_days', 21),   # rebalance interval in bars (~1 month)
+        ('reserve', 0.05),        # cash fraction kept unallocated
+        ('symbol_names', []),     # required for multi-stock support
     )
 
     def __init__(self):
-        # One SMA per data feed (supports multi‑stock backtests)
-        self.sma = {}
-        for d in self.datas:
-            symbol = d._name
-            self.sma[symbol] = bt.indicators.SMA(d.close, period=self.p.sma_period)
-        # Track the data feed for each symbol
-        self.symbol_to_data = {d._name: d for d in self.datas}
+        self.days_since_rebalance = 0
 
     def next(self):
-        for symbol, d in self.symbol_to_data.items():
-            price = d.close[0]
-            sma_val = self.sma[symbol][0]
+        self.days_since_rebalance += 1
+        if self.days_since_rebalance < self.p.rebalance_days:
+            return
+        self.days_since_rebalance = 0
+        self.rebalance()
+
+    def rebalance(self):
+        # Rank stocks with enough history by trailing return
+        scores = {}
+        for d in self.datas:
+            if len(d) > self.p.lookback and d.close[-self.p.lookback] > 0:
+                scores[d] = d.close[0] / d.close[-self.p.lookback] - 1.0
+
+        if not scores:
+            return
+
+        ranked = sorted(scores, key=scores.get, reverse=True)
+        targets = set(ranked[:self.p.top_n])
+
+        # Sell first: anything held that is no longer a target
+        for d in self.datas:
             pos = self.getposition(d)
-
-            # ENTRY: price below SMA and no current position
-            if not pos and price < sma_val:
-                cash = self.broker.getcash()
-                if cash > price:
-                    size = self._calc_size(cash, price)
-                    self.buy(data=d, size=size)
-                    print(f"BUY {symbol} @ {price:.2f} (size={size})")
-                continue
-
-            # EXIT: price above SMA and we hold a position
-            if pos and price > sma_val:
+            if pos.size and d not in targets:
                 self.close(data=d)
-                print(f"SELL {symbol} @ {price:.2f}")
 
-    def _calc_size(self, cash, price):
-        """Calculate share count based on the configured cash percentage."""
-        value = cash * self.p.position_size_pct
-        size = int(value / price)
-        return max(size, 1)
+        # Buy/adjust targets to equal weight
+        total_value = self.broker.getvalue() * (1.0 - self.p.reserve)
+        per_stock = total_value / self.p.top_n
+        for d in targets:
+            self.order_target_value(data=d, target=per_stock)

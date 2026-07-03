@@ -1,1 +1,2 @@
 commit	xirr	sharpe	sortino	drawdown	status	description
+bb1b9c6	-3.21	0.01	-0.06	36.06	keep	baseline (SkeletonStrategy: buy below SMA50 / sell above, 10% cash per trade)
