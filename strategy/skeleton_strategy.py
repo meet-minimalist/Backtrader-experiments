@@ -22,7 +22,7 @@ class SkeletonStrategy(bt.Strategy):
         ('momentum_period', 252),   # look-back for momentum ranking
         ('momentum_skip', 21),      # skip most recent bars (12-1 momentum)
         ('trend_period', 150),      # SMA trend filter / exit
-        ('top_n', 7),               # number of positions to hold
+        ('top_n', 10),               # number of positions to hold
         ('rebalance_every', 21),    # bars between rebalances (~1 month)
         ('symbol_names', []),       # required for multi-stock support
     )
