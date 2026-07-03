@@ -8,10 +8,10 @@ Logic:
   month (21 bars) to avoid short-term reversal noise.
 - Hold the top `top_n` stocks, roughly equal-weighted.
 - Eligibility: stock must have enough history and trade above its
-  200-day SMA (trend filter).
+  150-day SMA (trend filter).
 - Exits (explicit, realized):
   1. Rebalance exit: position leaves the top-N momentum list -> close.
-  2. Trend exit (checked daily): price closes below SMA200 -> close.
+  2. Trend exit (checked daily): price closes below SMA150 -> close.
 """
 
 import backtrader as bt
