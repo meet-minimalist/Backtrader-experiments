@@ -45,14 +45,16 @@ class SkeletonStrategy(bt.Strategy):
         self.cooldown_until = {}  # symbol -> bar_count when re-entry allowed
 
     def _momentum(self, d):
-        """12-1 momentum: return from -252 to -21 bars; None if too short."""
+        """Dual-horizon momentum: long (189-bar) + medium (63-bar) return,
+        both measured up to -momentum_skip bars; None if too short."""
         if len(d) <= self.p.momentum_period:
             return None
         past = d.close[-self.p.momentum_period]
+        mid = d.close[-63]
         recent = d.close[-self.p.momentum_skip]
-        if past <= 0:
+        if past <= 0 or mid <= 0:
             return None
-        return recent / past - 1.0
+        return (recent / past - 1.0) + (recent / mid - 1.0)
 
     def _eligible(self, d):
         """Enough history and in an uptrend (above SMA200)."""
