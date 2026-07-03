@@ -26,3 +26,4 @@ d6e2fbc	118.48	6.35	0.72	0.71	18.66	discard	2% exit tolerance band deepened DD a
 66d32b9	406.58	19.74	0.69	0.68	20.60	discard	lookback 168: Calmar flat but Sharpe/DD/CAGR all worse
 7eb81bd	205.41	11.34	0.71	0.71	18.12	discard	lookback 210 worse - 189 is local optimum
 1a2acc0	341.15	20.81	0.73	0.73	16.39	keep	15% trailing stop: DD down Sharpe flat all-around win
+07a9b8c	261.49	14.25	0.73	0.73	18.35	discard	12% trail too tight - re-entry churn raised DD
