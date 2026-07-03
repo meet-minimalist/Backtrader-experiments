@@ -114,7 +114,7 @@ class SkeletonStrategy(bt.Strategy):
                   and self.bar_count >= self.cooldown_until.get(name, 0)][:max(slots, 0)]
         if not to_buy:
             return
-        slot_value = self.broker.getvalue() / self.p.top_n * 0.95
+        slot_value = self.broker.getvalue() / self.p.top_n * 0.98
         cash = self.broker.getcash()
         for name in to_buy:
             d = self.symbol_to_data[name]
