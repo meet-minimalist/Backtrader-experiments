@@ -27,7 +27,7 @@ class SkeletonStrategy(bt.Strategy):
         ('trend_period', 200),    # SMA period for downtrend confirmation
         ('lookback', 126),        # momentum look-back for redeploys
         ('vol_period', 63),       # look-back for daily-return volatility
-        ('top_n', 5),             # number of momentum leaders to add to
+        ('top_n', 3),             # number of momentum leaders to add to
         ('symbol_names', []),     # required for multi-stock support
     )
 
