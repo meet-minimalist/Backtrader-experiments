@@ -15,3 +15,4 @@ bfec4f5	170.12	9.07	0.68	0.68	18.75	keep	rebalance every 5 bars: deployed-capita
 23428cf	163.29	9.63	0.82	0.85	16.96	keep	rank hysteresis top-2N hold buffer: Sharpe 0.82 DD 17%
 04d8eef	2364.92	133.31	0.75	0.76	17.74	discard	rebalance 3 bars: XIRR solver degenerate (CAGR 15%) Sharpe down - metric artifact not perf
 ebbff5a	163.29	9.63	0.82	0.85	16.96	discard	hold buffer 3xN identical to 2xN (buffer exceeds universe) keep simpler
+a2bd46d	161.28	8.24	0.83	0.85	19.57	discard	top 15 w/ hysteresis: DD worse Calmar down
