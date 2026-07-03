@@ -1,44 +1,46 @@
+"""
+Equal-weight buy-and-hold strategy.
+
+Logic:
+- On the first bar, split available cash equally across all stocks that
+  have data and buy them. Hold to the end of the backtest.
+- Stocks whose data starts later (e.g. later listings) are bought when
+  their feed comes alive, using an equal share of remaining cash spread
+  over the remaining unbought names.
+- No exits: the XIRR analyzer marks open positions to market at the end.
+"""
+
 import backtrader as bt
 
 
 class SkeletonStrategy(bt.Strategy):
     params = (
-        ('sma_period', 50),            # SMA look‑back period
-        ('position_size_pct', 0.10),   # % of cash to allocate per trade
-        ('symbol_names', []),          # required for multi‑stock support
+        ('symbol_names', []),   # required for multi-stock support
     )
 
     def __init__(self):
-        # One SMA per data feed (supports multi‑stock backtests)
-        self.sma = {}
-        for d in self.datas:
-            symbol = d._name
-            self.sma[symbol] = bt.indicators.SMA(d.close, period=self.p.sma_period)
-        # Track the data feed for each symbol
         self.symbol_to_data = {d._name: d for d in self.datas}
+        self.bought = set()
 
     def next(self):
-        for symbol, d in self.symbol_to_data.items():
+        unbought = [
+            (symbol, d) for symbol, d in self.symbol_to_data.items()
+            if symbol not in self.bought
+        ]
+        if not unbought:
+            return
+
+        live = [(symbol, d) for symbol, d in unbought if len(d) > 0]
+        if not live:
+            return
+
+        # Equal share of current cash over all remaining unbought names,
+        # so late-starting feeds keep a comparable allocation.
+        cash = self.broker.getcash() * 0.98
+        slot = cash / len(unbought)
+        for symbol, d in live:
             price = d.close[0]
-            sma_val = self.sma[symbol][0]
-            pos = self.getposition(d)
-
-            # ENTRY: price below SMA and no current position
-            if not pos and price < sma_val:
-                cash = self.broker.getcash()
-                if cash > price:
-                    size = self._calc_size(cash, price)
-                    self.buy(data=d, size=size)
-                    print(f"BUY {symbol} @ {price:.2f} (size={size})")
-                continue
-
-            # EXIT: price above SMA and we hold a position
-            if pos and price > sma_val:
-                self.close(data=d)
-                print(f"SELL {symbol} @ {price:.2f}")
-
-    def _calc_size(self, cash, price):
-        """Calculate share count based on the configured cash percentage."""
-        value = cash * self.p.position_size_pct
-        size = int(value / price)
-        return max(size, 1)
+            size = int(slot / price)
+            if size > 0:
+                self.buy(data=d, size=size)
+            self.bought.add(symbol)
