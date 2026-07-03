@@ -4,3 +4,7 @@ bb1b9c6	-3.21	0.01	-0.06	36.06	keep	baseline (SkeletonStrategy: buy below SMA50 
 86e59ba	16.86	0.67	0.59	38.34	keep	equal-weight buy and hold all 50 stocks - confirms XIRR analyzer credits held positions (XIRR 16.86 ~= CAGR 16.90)
 7469f72	21.87	0.64	0.60	43.33	keep	buy-hold + cut losers (-10% and below SMA200) monthly redeploy into top5 126d momentum uptrend stocks
 c82432c	26.32	0.66	0.60	53.98	discard	tighter loss cut -5% weekly checks - XIRR +4.4 but max drawdown +10.7 (54%) fails volatility criterion
+5e9064a	20.13	0.56	0.51	43.80	discard	loss cut 8% 10d checks + 10% per-stock concentration cap - worse XIRR and DD than exp3 (cap blocks winner redeploys)
+817c87e	21.27	0.59	0.54	45.87	discard	exp3 + breadth filter (redeploy only when >40% stocks above SMA200) - missed 2020 recovery worse XIRR and DD
+3718ff5	23.53	0.64	0.59	48.81	discard	staggered momentum accumulator top5 no index buy - XIRR +1.7 but DD +5.5 vs exp3 - promising structure retry with top10
+a0bb62d	20.27	0.58	0.53	44.67	discard	staggered momentum accumulator top10 - diversification diluted XIRR without cutting DD
