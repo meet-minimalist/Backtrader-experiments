@@ -11,3 +11,4 @@ a0bb62d	20.27	0.58	0.53	44.67	discard	staggered momentum accumulator top10 - div
 2da2cec	26.65	0.66	0.61	54.56	keep	exp4 aggression + risk-adjusted momentum (126d ret / 63d vol) redeploys - new best XIRR and Sharpe improved vs exp3 - DD 54.6 to attack next
 13eea48	24.34	0.63	0.57	51.91	discard	exp9 + SMA50 breadth gate on redeploys - XIRR -2.3 for only -2.7 DD - gates cannot protect held book in crash
 2c7786b	25.36	0.66	0.61	51.90	discard	pure tranche accumulator no index buy - XIRR -1.3 vs exp9 - day1 index book adds value
+4f1d0dc	27.01	0.66	0.60	56.20	discard	hard 5% stop without SMA200 condition - XIRR +0.36 for DD +1.6 - fails volatility criterion
