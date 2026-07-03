@@ -21,9 +21,13 @@ class XIRRAnalyzer(bt.Analyzer):
                 self.cash_flows.append((date, amount))
 
             elif order.issell():
-                # Cash inflow (positive)
+                # Cash inflow (positive): actual sale proceeds.
+                # order.executed.value cannot be used here - for a closing
+                # order backtrader sets it to the entry cost of the closed
+                # position (size * avg entry price), which erases realized
+                # P&L from the cash flows.
                 date = bt.num2date(order.executed.dt).date()
-                amount = order.executed.value
+                amount = order.executed.price * abs(order.executed.size)
                 self.cash_flows.append((date, amount))
 
     def stop(self):
