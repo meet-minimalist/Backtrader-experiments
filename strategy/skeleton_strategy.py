@@ -4,7 +4,8 @@ Momentum rotation strategy.
 Logic:
 - Universe: all stocks in the configured index (multi-feed).
 - Every `rebalance_every` bars (~monthly), rank eligible stocks by
-  6-month (126-bar) price momentum.
+  12-1 momentum: 12-month (252-bar) return skipping the most recent
+  month (21 bars) to avoid short-term reversal noise.
 - Hold the top `top_n` stocks, roughly equal-weighted.
 - Eligibility: stock must have enough history and trade above its
   200-day SMA (trend filter).
@@ -18,7 +19,8 @@ import backtrader as bt
 
 class SkeletonStrategy(bt.Strategy):
     params = (
-        ('momentum_period', 126),   # look-back for momentum ranking
+        ('momentum_period', 252),   # look-back for momentum ranking
+        ('momentum_skip', 21),      # skip most recent bars (12-1 momentum)
         ('trend_period', 200),      # SMA trend filter / exit
         ('top_n', 5),               # number of positions to hold
         ('rebalance_every', 21),    # bars between rebalances (~1 month)
@@ -33,13 +35,14 @@ class SkeletonStrategy(bt.Strategy):
         self.bar_count = 0
 
     def _momentum(self, d):
-        """6-month return; None if not enough history."""
+        """12-1 momentum: return from -252 to -21 bars; None if too short."""
         if len(d) <= self.p.momentum_period:
             return None
         past = d.close[-self.p.momentum_period]
+        recent = d.close[-self.p.momentum_skip]
         if past <= 0:
             return None
-        return d.close[0] / past - 1.0
+        return recent / past - 1.0
 
     def _eligible(self, d):
         """Enough history and in an uptrend (above SMA200)."""
