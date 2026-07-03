@@ -8,3 +8,4 @@ af8331c	34.01	1.29	0.48	0.45	26.38	keep	12-1 momentum (252 skip 21) raised XIRR 
 4d824e5	48.43	1.96	0.27	0.23	24.77	discard	SMA100 exit: Calmar flat but Sharpe collapsed (whipsaws)
 2dbe8de	52.45	2.10	0.65	0.65	25.02	keep	top 7 holdings: better Calmar and DD, small Sharpe dip
 980de7f	60.28	2.29	0.64	0.64	26.28	keep	top 10 holdings: XIRR 60% Sharpe flat
+1340d9f	54.63	3.23	0.76	0.79	16.92	keep	top 15 holdings: DD 17% Sharpe 0.76 big Calmar jump
