@@ -21,3 +21,4 @@ b052086	335.11	19.54	0.73	0.73	17.15	keep	momentum lookback 189: Calmar +63% but
 8fd1e53	375.58	21.54	0.59	0.57	17.44	discard	inverse-vol sizing idled capital: Sharpe -0.14 CAGR 12% - XIRR gain is artifact
 71c849b	210.81	11.70	0.69	0.68	18.02	discard	SMA175 exit worse everywhere - SMA150 is sweet spot
 c84cb74	172.07	10.80	0.64	0.63	15.93	discard	min momentum 10% cut breadth too much
+d6e2fbc	118.48	6.35	0.72	0.71	18.66	discard	2% exit tolerance band deepened DD and cut XIRR
