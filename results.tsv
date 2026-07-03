@@ -29,3 +29,4 @@ d6e2fbc	118.48	6.35	0.72	0.71	18.66	discard	2% exit tolerance band deepened DD a
 07a9b8c	261.49	14.25	0.73	0.73	18.35	discard	12% trail too tight - re-entry churn raised DD
 757f4e1	342.17	20.25	0.72	0.72	16.90	discard	18% trail slightly worse than 15%
 ee0374f	385.24	23.29	0.74	0.74	16.54	keep	10-bar re-entry cooldown after exits: Calmar +12% Sharpe up
+39f0a6b	312.34	15.82	0.66	0.66	19.74	discard	21-bar cooldown too long missed rebounds
