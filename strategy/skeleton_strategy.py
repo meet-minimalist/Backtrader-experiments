@@ -1,17 +1,19 @@
 """
-Buy & Hold Winners, Cut Losers, Redeploy into Momentum
-======================================================
+Buy & Hold Winners, Cut Losers Fast, Redeploy into Risk-Adjusted Momentum
+=========================================================================
 Logic:
 - Start with an equal-weight buy of every stock as its data appears.
-- Every `check_days` bars:
-  - SELL any position that is (a) below its average entry price by more
-    than `loss_pct` AND (b) below its 200-day SMA (confirmed downtrend).
-  - REDEPLOY available cash equally into the current top `top_n` stocks
-    by trailing 126-day momentum (adding to existing positions is fine).
+- Every `check_days` (5) bars:
+  - SELL any position more than `loss_pct` (5%) below its average entry
+    price AND below its 200-day SMA (confirmed downtrend).
+  - REDEPLOY available cash equally into the top `top_n` stocks ranked
+    by risk-adjusted momentum: 126-day return divided by 63-day daily
+    volatility. Only stocks above their 200-day SMA are eligible.
 - Winners are never sold; they compound until the end of the backtest.
 
-Rationale: classic trend-following discipline - cut losers, let winners
-run. Freed capital migrates from structural decliners into leaders.
+Rationale: fast loss-cutting recycles dead capital quickly (exp4 showed
+a large XIRR gain); dividing momentum by volatility steers redeploys
+toward steadier trends to pull the max drawdown back down.
 """
 
 import backtrader as bt
@@ -20,10 +22,11 @@ import backtrader as bt
 class SkeletonStrategy(bt.Strategy):
     params = (
         ('reserve', 0.02),        # cash fraction kept unallocated
-        ('check_days', 21),       # bars between maintenance checks
-        ('loss_pct', 0.10),       # loss threshold to cut a position
+        ('check_days', 5),        # bars between maintenance checks
+        ('loss_pct', 0.05),       # loss threshold to cut a position
         ('trend_period', 200),    # SMA period for downtrend confirmation
         ('lookback', 126),        # momentum look-back for redeploys
+        ('vol_period', 63),       # look-back for daily-return volatility
         ('top_n', 5),             # number of momentum leaders to add to
         ('symbol_names', []),     # required for multi-stock support
     )
@@ -32,8 +35,12 @@ class SkeletonStrategy(bt.Strategy):
         self.bought = set()
         self.slice_value = None
         self.days_since_check = 0
-        self.sma = {d._name: bt.indicators.SMA(d.close, period=self.p.trend_period)
-                    for d in self.datas}
+        self.sma = {}
+        self.vol = {}
+        for d in self.datas:
+            self.sma[d._name] = bt.indicators.SMA(d.close, period=self.p.trend_period)
+            daily_ret = bt.indicators.ROC(d.close, period=1)
+            self.vol[d._name] = bt.indicators.StdDev(daily_ret, period=self.p.vol_period)
 
     def next(self):
         # Initial equal-weight deployment
@@ -70,7 +77,7 @@ class SkeletonStrategy(bt.Strategy):
             if price < pos.price * (1.0 - self.p.loss_pct) and price < sma:
                 self.close(data=d)
 
-        # Redeploy free cash into top momentum stocks
+        # Redeploy free cash into top risk-adjusted momentum stocks
         cash = self.broker.getcash() * (1.0 - self.p.reserve)
         if cash < self.broker.getvalue() * 0.01:
             return
@@ -78,9 +85,10 @@ class SkeletonStrategy(bt.Strategy):
         scores = {}
         for d in self.datas:
             if len(d) > self.p.lookback and d.close[-self.p.lookback] > 0:
-                # Only add to stocks in an uptrend
-                if d.close[0] > self.sma[d._name][0]:
-                    scores[d] = d.close[0] / d.close[-self.p.lookback] - 1.0
+                vol = self.vol[d._name][0]
+                if d.close[0] > self.sma[d._name][0] and vol > 0:
+                    mom = d.close[0] / d.close[-self.p.lookback] - 1.0
+                    scores[d] = mom / vol
         if not scores:
             return
 
