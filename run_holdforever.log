@@ -1,0 +1,45 @@
+Fetching stock data...
+
+Starting Backtest with 46 stocks
+Initial Capital: ₹1,000,000.00
+
+🔄 Running Backtest...
+
+Initial Capital: ₹1,000,000.00
+Final Portfolio: ₹3,876,378.82
+Total Return: +287.64%
+
+================================================================================
+📈 COMPREHENSIVE PERFORMANCE ANALYSIS
+================================================================================
+
+💰 RETURNS ANALYSIS:
+   Total Return: 135.49%
+   Average Return: 0.05%
+   CAGR: 14.85%
+   XIRR: 16.24%
+   Annual Returns:
+     2015: -0.05%
+     2016: 14.24%
+     2017: 33.50%
+     2018: 3.04%
+     2019: 8.05%
+     2020: 22.64%
+     2021: 34.55%
+     2022: 4.38%
+     2023: 21.19%
+     2024: 9.42%
+
+🎯 RISK ANALYSIS:
+   Sharpe Ratio: 0.59 (Higher is better, >1 is good)
+   Sharpe Ratio indicates how my returns are with respect to volatility of returns. A higher Sharpe Ratio means better risk-adjusted returns.
+   Sortino Ratio: 0.54 (Higher is better, >1 is good)
+   Sortino Ratio indicates how my returns are with respect to downside volatility. A higher Sortino Ratio means better risk-adjusted returns.
+   Max Drawdown: 36.95% (Usually it should be 15-20% or lower)
+   Drawdown Period: 331 days (Lower is better)
+
+📊 TRADING STATISTICS:
+   Total Trades: 46
+   Winning Trades: 0
+   Losing Trades: 0
+   Win Rate: 0.0%

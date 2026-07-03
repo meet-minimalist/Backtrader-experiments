@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\d\StockMarketAnalysis\RandomStockMarketAnalysis\backtrader_experiements\main.py", line 288, in <module>
+    run_backtest(
+  File "D:\d\StockMarketAnalysis\RandomStockMarketAnalysis\backtrader_experiements\main.py", line 186, in run_backtest
+    results = cerebro.run()
+              ^^^^^^^^^^^^^
+  File "C:\Users\patel\AppData\Local\Programs\Python\Python311\Lib\site-packages\backtrader\cerebro.py", line 1132, in run
+    runstrat = self.runstrategies(iterstrat)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\patel\AppData\Local\Programs\Python\Python311\Lib\site-packages\backtrader\cerebro.py", line 1222, in runstrategies
+    strat = stratcls(*sargs, **skwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\patel\AppData\Local\Programs\Python\Python311\Lib\site-packages\backtrader\metabase.py", line 88, in __call__
+    _obj, args, kwargs = cls.doinit(_obj, *args, **kwargs)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\patel\AppData\Local\Programs\Python\Python311\Lib\site-packages\backtrader\metabase.py", line 78, in doinit
+    _obj.__init__(*args, **kwargs)
+  File "D:\d\StockMarketAnalysis\RandomStockMarketAnalysis\backtrader_experiements\strategy\skeleton_strategy.py", line 36, in __init__
+    self.mfi[d._name] = bt.indicators.MoneyFlowIndicator(d, period=self.p.mfi_period)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'backtrader.indicators' has no attribute 'MoneyFlowIndicator'
+Fetching stock data...
+
+Starting Backtest with 46 stocks
+Initial Capital: ₹1,000,000.00
+
+🔄 Running Backtest...
