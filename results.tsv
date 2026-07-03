@@ -2,3 +2,5 @@ commit	xirr	sharpe	sortino	drawdown	status	description
 bb1b9c6	-3.21	0.01	-0.06	36.06	keep	baseline (SkeletonStrategy: buy below SMA50 / sell above, 10% cash per trade)
 6a8792d	0.86	0.47	0.41	32.79	keep	momentum rotation top5 by 126d return monthly rebalance (real CAGR 14% but XIRR analyzer only credits open positions - rebalancing hides realized gains)
 86e59ba	16.86	0.67	0.59	38.34	keep	equal-weight buy and hold all 50 stocks - confirms XIRR analyzer credits held positions (XIRR 16.86 ~= CAGR 16.90)
+7469f72	21.87	0.64	0.60	43.33	keep	buy-hold + cut losers (-10% and below SMA200) monthly redeploy into top5 126d momentum uptrend stocks
+c82432c	26.32	0.66	0.60	53.98	discard	tighter loss cut -5% weekly checks - XIRR +4.4 but max drawdown +10.7 (54%) fails volatility criterion
