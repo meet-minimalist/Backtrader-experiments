@@ -8,3 +8,4 @@ c82432c	26.32	0.66	0.60	53.98	discard	tighter loss cut -5% weekly checks - XIRR 
 817c87e	21.27	0.59	0.54	45.87	discard	exp3 + breadth filter (redeploy only when >40% stocks above SMA200) - missed 2020 recovery worse XIRR and DD
 3718ff5	23.53	0.64	0.59	48.81	discard	staggered momentum accumulator top5 no index buy - XIRR +1.7 but DD +5.5 vs exp3 - promising structure retry with top10
 a0bb62d	20.27	0.58	0.53	44.67	discard	staggered momentum accumulator top10 - diversification diluted XIRR without cutting DD
+2da2cec	26.65	0.66	0.61	54.56	keep	exp4 aggression + risk-adjusted momentum (126d ret / 63d vol) redeploys - new best XIRR and Sharpe improved vs exp3 - DD 54.6 to attack next
