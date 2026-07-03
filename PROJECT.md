@@ -96,28 +96,29 @@ grep "Max Drawdown:" run.log
 
 When an experiment is done, log it to `results.tsv` (tab-separated, NOT comma-separated — commas break in descriptions).
 
-The TSV has a header row and 6 columns:
+The TSV has a header row and 8 columns:
 
 ```
-commit	xirr  sharpe	sortino  drawdown status   description
+commit	xirr	calmar	sharpe	sortino	drawdown	status	description
 ```
 
 1. git commit hash (short, 7 chars)
 2. XIRR % achieved (e.g. 15.67) — use 0.00 for crashes
-3. Sharpe Ratio achieved (e.g. 1.25) — use 0.00 for crashes
-4. Sortino Ratio achieved (e.g. 0.98) — use 0.00 for crashes
-5. Max Drawdown % (e.g. 12.34) — use 0.00 for crashes
-6. status: `keep`, `discard`, or `crash`
-7. short text description of what this experiment tried
+3. Calmar = XIRR / Max Drawdown (e.g. 0.85) — the selection metric; use 0.00 for crashes
+4. Sharpe Ratio achieved (e.g. 1.25) — use 0.00 for crashes
+5. Sortino Ratio achieved (e.g. 0.98) — use 0.00 for crashes
+6. Max Drawdown % (e.g. 12.34) — use 0.00 for crashes
+7. status: `keep`, `discard`, or `crash`
+8. short text description of what this experiment tried
 
 Example:
 
 ```
-commit	xirr  sharpe   sortino	drawdown	status	description
-a1b2c3d	18.50 0.85	   0.72	   14.20	   keep	   baseline (ShopStrategy)
-b2c3d4e	14.20 1.12	   0.95	   16.80	   keep	   add RSI filter for entry
-c3d4e5f	22.30 0.78	   0.65	   12.10	   discard	switch to MACD crossover
-d4e5f6g	0.00  0.00	   0.00	   0.00	   crash	   infinite loop in next()
+commit	xirr	calmar	sharpe	sortino	drawdown	status	description
+a1b2c3d	18.50	1.30	0.85	0.72	14.20	keep	baseline (ShopStrategy)
+b2c3d4e	14.20	0.85	1.12	0.95	16.80	keep	add RSI filter for entry
+c3d4e5f	22.30	1.84	0.78	0.65	12.10	discard	switch to MACD crossover
+d4e5f6g	0.00	0.00	0.00	0.00	0.00	crash	infinite loop in next()
 ```
 
 ## The experiment loop
