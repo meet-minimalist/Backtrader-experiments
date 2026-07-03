@@ -15,6 +15,8 @@ Logic:
 - Exits (explicit, realized):
   1. Rebalance exit: position falls out of the hold buffer -> close.
   2. Trend exit (checked daily): price closes below SMA150 -> close.
+  3. Trailing stop (checked daily): close drops more than `trail_pct`
+     below the highest close seen while holding -> close.
 """
 
 import backtrader as bt
@@ -28,6 +30,7 @@ class SkeletonStrategy(bt.Strategy):
         ('top_n', 20),               # number of positions to hold
         ('rebalance_every', 5),     # bars between rebalances
         ('hold_buffer_mult', 2),    # keep holdings while in top N*mult ranks
+        ('trail_pct', 0.15),        # trailing stop below post-entry high close
         ('symbol_names', []),       # required for multi-stock support
     )
 
@@ -37,6 +40,7 @@ class SkeletonStrategy(bt.Strategy):
             self.sma[d._name] = bt.indicators.SMA(d.close, period=self.p.trend_period)
         self.symbol_to_data = {d._name: d for d in self.datas}
         self.bar_count = 0
+        self.high_water = {}  # symbol -> highest close while holding
 
     def _momentum(self, d):
         """12-1 momentum: return from -252 to -21 bars; None if too short."""
@@ -57,10 +61,18 @@ class SkeletonStrategy(bt.Strategy):
     def next(self):
         self.bar_count += 1
 
-        # Daily trend exit: close anything below its SMA200
+        # Daily exits: trend break (below SMA150) or trailing stop
         for d in self.datas:
             pos = self.getposition(d)
-            if pos and len(d) > self.p.trend_period and d.close[0] < self.sma[d._name][0]:
+            name = d._name
+            if not pos:
+                self.high_water.pop(name, None)
+                continue
+            hw = max(self.high_water.get(name, d.close[0]), d.close[0])
+            self.high_water[name] = hw
+            trend_break = len(d) > self.p.trend_period and d.close[0] < self.sma[name][0]
+            stop_hit = d.close[0] < hw * (1.0 - self.p.trail_pct)
+            if trend_break or stop_hit:
                 self.close(data=d)
 
         # Rebalance on schedule
