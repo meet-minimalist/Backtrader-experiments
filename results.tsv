@@ -34,3 +34,4 @@ e04d3ae	377.71	30.46	-0.17	-0.28	12.40	discard	kill switch deadlocks below high-
 2890632	290.89	19.35	0.72	0.72	15.03	discard	SMA20 entry confirmation cut DD but XIRR fell more
 38129a3	405.15	22.22	0.69	0.69	18.23	discard	15-bar cooldown worse than 10
 b942120	394.08	24.16	0.72	0.71	16.31	keep	cooldown on rebalance sells too: marginal Calmar gain
+62233bb	409.44	24.91	0.76	0.77	16.44	keep	slot sizing 0.98: less cash drag all metrics up
