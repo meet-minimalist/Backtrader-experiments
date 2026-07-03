@@ -33,9 +33,14 @@ Each experiment runs on a backtest. You launch it simply as: `uv run python -m m
    - Modify the evaluation metrics. The analyzers present in `./analyzers` directory. 
    - Modify `config.py`. It is read-only and contains start and end date of backtest, interval of the data available, initial cash available, index name etc.
 
-The goal is simple: get the maximum XIRR. Everything is fair game: change the strategy, the indicators, the windows, the timeframe. The only constraint is that the code runs without crashing and output print_metrics to stdout.
+The goal: maximize **risk-adjusted return**. The selection metric is **Calmar = XIRR / Max Drawdown** — a strategy making 20% XIRR with a 20% max drawdown (Calmar 1.0) beats one making 30% with a 50% drawdown (Calmar 0.6). Everything is fair game: change the strategy, the indicators, the windows, the timeframe. The only constraint is that the code runs without crashing and output print_metrics to stdout.
 
-Volatility criterion: All else being equal, simpler is better. A small improvement that adds ugly max drawdowns is not worth it. Conversely, improving sharpe and getting equal or better result is a great outcome — that's a volatility win. When evaluating whether to keep a change, weigh the max_drawdowns against the xirr improvement magnitude. A 1% XIRR improvement that adds 10% extra max drawdown? Not worth it. A 10% XIRR improvement from extra 5% drawdowns? Definitely keep. An improvement of ~0 but lower max_drawdown? Keep.
+Selection rules (ALL must hold to keep a change):
+
+1. **Calmar improves**: keep a change if XIRR / MaxDrawdown beats the current champion. All else being equal, simpler is better.
+2. **Sharpe must not degrade materially**: a Sharpe drop of more than ~0.05 needs a large Calmar win to justify it. Conversely, a change with ~equal Calmar but better Sharpe or lower drawdown is a keep — that's a volatility win.
+3. **XIRR floor**: XIRR must stay above 12% (beat fixed deposits). A tiny-drawdown strategy earning less than that is uninteresting — discard regardless of Calmar.
+4. **Realized trades requirement**: every position must have an explicit exit rule (signal, stop, target, or time-based). Pure buy-and-hold — where the return engine is open positions marked to market at the end of the backtest — is ineligible. Measurable check: the run must show closed winning trades (Winning Trades > 0 and Average Win > 0), and the trade statistics must reflect the strategy's actual return engine, not just its discarded losers. A strategy that only ever realizes losses while its winners stay open forever converges to buy-and-hold; discard it even if Calmar improves.
 
 The first run: Your very first run should always be to establish the baseline, so you will run the backtesting script as is.
 
@@ -128,9 +133,9 @@ LOOP FOREVER:
 5. Run the experiment: `uv run python -m main > run.log 2>&1` (redirect everything — do NOT use tee or let output flood your context).
 6. Read out the results: `grep -A2 "Sharpe Ratio:\|Sortino Ratio:\|XIRR:\|Max Drawdown:" run.log`.
 7. If the grep output is empty, the run crashed. Run `tail -n 50 run.log` to read the Python stack trace and attempt a fix. If you can't get things to work after more than a few attempts, give up.
-8. If xirr improved (higher), you "advance" the branch, keeping the git commit
-9. If xirr is equal or worse, you git reset back to where you started
-10. For marginal changes use `Volatility criterion` to decide.
+8. If the risk-adjusted result improved (Calmar = XIRR/MaxDD higher AND the Selection rules hold), you "advance" the branch, keeping the git commit
+9. If Calmar is equal or worse, or any Selection rule fails (Sharpe degraded, XIRR below floor, no realized winning trades), you git reset back to where you started
+10. For marginal changes use the `Selection rules` to decide.
 
 You are a completely autonomous quant developer trying things out. If they work, keep. If they don't, discard. And you're advancing the branch so that you can iterate. If you feel like you're getting stuck in some way, you can rewind but you should probably do this very very sparingly (if ever).
 
