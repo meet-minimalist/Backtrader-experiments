@@ -127,3 +127,4 @@ exp124	845.48	71.17	0.86	0.90	11.88	discard	Exp 124: profit-lock skips trend exi
 exp125	456.66	39.85	0.87	0.91	11.46	discard	Exp 125: 1.25x on 189 leg. Sharpe 0.87 fine but Calmar 39.85. Weights confirmed.
 exp126	844.87	64.84	0.80	0.84	13.03	discard	Exp 126: double cooldown after stop exits. Sharpe 0.80 CAGR 15.60 both worse.
 exp127	818.70	70.27	0.82	0.86	11.65	discard	Exp 127: weighted percentile ranking across horizons. Calmar 70.27 Sharpe 0.82 both slightly worse.
+exp128	787.87	69.23	0.87	0.92	11.38	discard	Exp 128: split cash evenly across pending buys. Sharpe 0.87 CAGR 16.69 slightly better but Calmar 69.23 lower. Near-miss.
