@@ -4,7 +4,7 @@ Momentum rotation strategy.
 Logic:
 - Universe: all stocks in the configured index (multi-feed).
 - Every `rebalance_every` bars (weekly, 5), rank eligible stocks by
-  triple-horizon momentum: 189-bar + 126-bar + 63-bar returns, all
+  quad-horizon momentum: 189-bar + 147-bar + 126-bar + 63-bar returns, all
   measured up to `momentum_skip` (10) bars ago to avoid short-term
   reversal noise.
 - Hold the top `top_n` (20) stocks, roughly equal-weighted (0.98 of an
@@ -49,18 +49,19 @@ class SkeletonStrategy(bt.Strategy):
         self.cooldown_until = {}  # symbol -> bar_count when re-entry allowed
 
     def _momentum(self, d):
-        """Triple-horizon momentum: long (189-bar) + mid (126-bar) +
-        medium (63-bar) returns, all up to -momentum_skip bars; None if
-        too short."""
+        """Quad-horizon momentum: 189-bar + 147-bar + 126-bar + 63-bar
+        returns, all up to -momentum_skip bars; None if too short."""
         if len(d) <= self.p.momentum_period:
             return None
         past = d.close[-self.p.momentum_period]
+        mid3 = d.close[-147]
         mid2 = d.close[-126]
         mid = d.close[-63]
         recent = d.close[-self.p.momentum_skip]
-        if past <= 0 or mid <= 0 or mid2 <= 0:
+        if past <= 0 or mid <= 0 or mid2 <= 0 or mid3 <= 0:
             return None
-        return (recent / past - 1.0) + (recent / mid2 - 1.0) + (recent / mid - 1.0)
+        return ((recent / past - 1.0) + (recent / mid3 - 1.0)
+                + (recent / mid2 - 1.0) + (recent / mid - 1.0))
 
     def _eligible(self, d):
         """Enough history and in an uptrend (above SMA200)."""
