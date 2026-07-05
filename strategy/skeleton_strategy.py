@@ -21,8 +21,8 @@ Logic:
   2. Trend exit (checked daily): price closes below SMA150 -> close.
   3. Trailing stop (checked daily): close drops more than `trail_pct`
      below the highest close seen while holding -> close. Once the
-     position has gained over 25% from entry, the trail tightens to
-     `trail_pct_tight` (8%) to lock in profits.
+     position has gained over 15% from entry the trail tightens to
+     12%, and over 25% to `trail_pct_tight` (8%), locking in profits.
 """
 
 import backtrader as bt
@@ -89,6 +89,8 @@ class SkeletonStrategy(bt.Strategy):
             trail = self.p.trail_pct
             if pos.price > 0 and hw > pos.price * 1.25:
                 trail = self.p.trail_pct_tight
+            elif pos.price > 0 and hw > pos.price * 1.15:
+                trail = 0.12
             stop_hit = d.close[0] < hw * (1.0 - trail)
             if trend_break or stop_hit:
                 self.close(data=d)
