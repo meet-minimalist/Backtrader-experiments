@@ -20,9 +20,9 @@ Logic:
   1. Rebalance exit: position falls out of the hold buffer -> close.
   2. Trend exit (checked daily): price closes below SMA150 -> close.
   3. Trailing stop (checked daily): close drops more than `trail_pct`
-     below the highest close seen while holding -> close. Once the
-     position has gained over 12% from entry the trail tightens to
-     10%, and over 25% to `trail_pct_tight` (8%), locking in profits.
+     below the highest close seen while holding -> close (16%
+     base). Once the position has gained over 12% from entry the trail
+     tightens to 10%, and over 25% to `trail_pct_tight` (8%).
 """
 
 import backtrader as bt
