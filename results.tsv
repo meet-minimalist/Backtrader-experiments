@@ -97,3 +97,4 @@ exp94	493.52	40.22	0.78	0.81	12.27	discard	Exp 94: hw from intraday highs. Calma
 exp95	627.32	42.88	0.89	0.94	14.63	discard	Exp 95: skip=11. Sharpe 0.89 CAGR 16.99 good but Calmar 42.88 DD 14.63. skip=10 stays.
 exp96	859.74	52.04	0.78	0.80	16.52	discard	Exp 96: skip=9. Calmar 52.04 Sharpe 0.78 DD 16.52. skip=10 confirmed peak.
 exp97	200.16	12.42	0.84	0.88	16.11	discard	Exp 97: exit SMA175 entry SMA150. Calmar 12.42 collapses DD 16.11.
+exp98	788.37	63.53	0.83	0.86	12.41	discard	Exp 98: hold_buffer_mult=1.75. Calmar 63.53 Sharpe 0.83 below champion. 2x stays.
