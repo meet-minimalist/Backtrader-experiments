@@ -84,3 +84,4 @@ exp81	457.24	28.05	0.74	0.75	16.30	discard	Exp 81: rebalance=4. Worse everywhere
 6e52c93	762.00	62.56	0.87	0.92	12.18	keep	Exp 82: middle tier 12pct trail after +15pct gain. CAGR 16.80 Sharpe 0.87 DD 12.18. All better.
 e34e425	767.49	65.10	0.87	0.91	11.79	keep	Exp 83: middle tier trail 10pct. CAGR 16.84 DD 11.79. Calmar 65.10 new best.
 exp84	771.24	63.58	0.89	0.94	12.13	discard	Exp 84: middle tier 9pct. Sharpe 0.89 CAGR 17.01 best but Calmar 63.58 below 65.10. Near-miss.
+e344f74	788.36	65.70	0.88	0.92	12.00	keep	Exp 85: middle tier at +12pct gain. CAGR 16.91 Sharpe 0.88. Calmar 65.70 new best.
