@@ -107,3 +107,4 @@ exp104	812.48	69.62	0.79	0.82	11.67	discard	Exp 104: tight trail 0.07. Calmar 69
 exp105	726.34	57.33	0.83	0.87	12.67	discard	Exp 105: top_n=21. Calmar 57.33 below 69.33. 20 stays.
 exp106	899.99	65.17	0.88	0.93	13.81	discard	Exp 106: top_n=19. Sharpe 0.88 CAGR 16.93 but Calmar 65.17 DD 13.81. 20 stays.
 exp107	1050.74	77.32	0.80	0.83	13.59	discard	Exp 107: lookback 196. XIRR 1050 artifact Sharpe 0.80 CAGR 15.79 DD 13.59 all worse. Sharpe guard reject.
+exp108	439.84	34.44	0.85	0.88	12.77	discard	Exp 108: lookback 182. Calmar 34.44. 189 confirmed peak.
