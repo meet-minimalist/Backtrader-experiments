@@ -41,3 +41,4 @@ b942120	394.08	24.16	0.72	0.71	16.31	keep	cooldown on rebalance sells too: margi
 985c92a	615.22	39.69	0.60	0.61	15.50	discard	ATR3x stop churns (1087 trades) Sharpe -0.11 CAGR 12.7% - artifact Calmar
 a9ca228	489.72	32.37	0.75	0.76	15.13	keep	Exp 40: triple-horizon momentum 189+126+63 all skip-10. CAGR 15.50. Improves every metric.
 exp41	207.20	13.01	0.74	0.75	15.93	discard	Exp 41: quad-horizon add 252-bar term. CAGR 15.30. Calmar collapses vs 32.37.
+exp42	73.98	4.74	0.68	0.68	15.61	discard	Exp 42: rebalance_every=7. CAGR 14.61 Sharpe 0.68. Worse everywhere.
