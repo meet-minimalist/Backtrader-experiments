@@ -20,7 +20,9 @@ Logic:
   1. Rebalance exit: position falls out of the hold buffer -> close.
   2. Trend exit (checked daily): price closes below SMA150 -> close.
   3. Trailing stop (checked daily): close drops more than `trail_pct`
-     below the highest close seen while holding -> close.
+     below the highest close seen while holding -> close. Once the
+     position has gained over 25% from entry, the trail tightens to
+     `trail_pct_tight` (10%) to lock in profits.
 """
 
 import backtrader as bt
@@ -35,6 +37,7 @@ class SkeletonStrategy(bt.Strategy):
         ('rebalance_every', 5),     # bars between rebalances
         ('hold_buffer_mult', 2),    # keep holdings while in top N*mult ranks
         ('trail_pct', 0.15),        # trailing stop below post-entry high close
+        ('trail_pct_tight', 0.10),  # tighter trail once gain exceeds 25%
         ('cooldown_bars', 10),      # bars to wait before re-buying after a daily exit
         ('symbol_names', []),       # required for multi-stock support
     )
@@ -82,7 +85,10 @@ class SkeletonStrategy(bt.Strategy):
             hw = max(self.high_water.get(name, d.close[0]), d.close[0])
             self.high_water[name] = hw
             trend_break = len(d) > self.p.trend_period and d.close[0] < self.sma[name][0]
-            stop_hit = d.close[0] < hw * (1.0 - self.p.trail_pct)
+            trail = self.p.trail_pct
+            if pos.price > 0 and hw > pos.price * 1.25:
+                trail = self.p.trail_pct_tight
+            stop_hit = d.close[0] < hw * (1.0 - trail)
             if trend_break or stop_hit:
                 self.close(data=d)
                 self.cooldown_until[name] = self.bar_count + self.p.cooldown_bars
