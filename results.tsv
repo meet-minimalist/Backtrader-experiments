@@ -118,3 +118,4 @@ exp115	783.60	62.59	0.88	0.93	12.52	discard	Exp 115: cooldown only daily exits. 
 exp116	849.45	68.84	0.84	0.88	12.34	discard	Exp 116: cooldown=13. Calmar 68.84 below 71.09. 12 stays.
 exp117	460.77	39.42	0.84	0.88	11.69	discard	Exp 117: 1.6x on 147 leg. Calmar 39.42. 1.5x confirmed sharp peak.
 exp118	798.73	70.68	0.86	0.91	11.30	discard	Exp 118: 1.4x on 147 leg. Calmar 70.68 just below 71.09. 1.5x stays.
+exp119	814.69	63.11	0.81	0.84	12.91	discard	Exp 119: 1.25x on 126 leg. Calmar 63.11 Sharpe 0.81. Equal weight stays.
