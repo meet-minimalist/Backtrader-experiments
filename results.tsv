@@ -136,3 +136,4 @@ exp133	647.70	37.48	0.78	0.80	17.28	discard	Exp 133: rebalance on Wednesdays. Ca
 exp134	463.06	35.38	0.90	0.96	13.09	discard	Exp 134: adaptive slot floor 12. Sharpe 0.90 CAGR 17.47 best real metrics but DD 13.09 XIRR halves. Strong near-miss.
 exp135	387.56	30.56	0.89	0.95	12.68	discard	Exp 135: adaptive slot floor 16. Sharpe 0.89 good but Calmar 30.56. XIRR objective punishes fuller deployment.
 exp136	570.95	37.39	0.72	0.73	15.27	discard	Exp 136: portfolio DD 8pct tightens all trails. DD worse 15.27 Sharpe 0.72. Whipsaw churn.
+exp137	827.32	68.60	0.90	0.95	12.06	discard	Exp 137: hard TP at +45pct. Sharpe 0.90 XIRR 827 but DD 12.06 drops Calmar to 68.60. Near-miss - probe thresholds.
