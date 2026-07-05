@@ -94,3 +94,4 @@ exp91	833.61	68.33	0.81	0.84	12.20	discard	Exp 91: stop on daily low. Calmar 68.
 exp92	679.83	44.58	0.79	0.83	15.25	discard	Exp 92: consistency-scaled momentum. Calmar 44.58 Sharpe 0.79 below champion.
 exp93	397.91	28.22	0.86	0.90	14.10	discard	Exp 93: entries need close above 1.02x SMA. Calmar 28.22 collapses.
 exp94	493.52	40.22	0.78	0.81	12.27	discard	Exp 94: hw from intraday highs. Calmar 40.22 Sharpe 0.78. Close-based hw stays.
+exp95	627.32	42.88	0.89	0.94	14.63	discard	Exp 95: skip=11. Sharpe 0.89 CAGR 16.99 good but Calmar 42.88 DD 14.63. skip=10 stays.
