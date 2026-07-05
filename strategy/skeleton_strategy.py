@@ -36,7 +36,7 @@ class SkeletonStrategy(bt.Strategy):
         ('top_n', 20),               # number of positions to hold
         ('rebalance_every', 5),     # bars between rebalances
         ('hold_buffer_mult', 2),    # keep holdings while in top N*mult ranks
-        ('trail_pct', 0.15),        # trailing stop below post-entry high close
+        ('trail_pct', 0.16),        # trailing stop below post-entry high close
         ('trail_pct_tight', 0.08),  # tighter trail once gain exceeds 25%
         ('cooldown_bars', 12),      # bars to wait before re-buying after a daily exit
         ('symbol_names', []),       # required for multi-stock support
