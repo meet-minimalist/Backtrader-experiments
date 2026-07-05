@@ -52,3 +52,4 @@ exp49	302.53	18.29	0.72	0.73	16.54	discard	Exp 49: rising SMA150 eligibility. CA
 exp50	392.56	24.07	0.71	0.71	16.31	discard	Exp 50: skip=7 with triple horizon. CAGR 15.07 Sharpe 0.71. skip=10 stays.
 exp51	557.34	34.99	0.68	0.68	15.93	discard	Exp 51: skip=12. Calmar 34.99 nominal but Sharpe 0.68 CAGR 14.52 both worse. XIRR turnover artifact - rejected on Sharpe guard.
 exp52	509.73	30.45	0.68	0.67	16.74	discard	Exp 52: top up underweight kept positions. CAGR 14.65 Sharpe 0.68. Worse.
+exp53	441.80	25.66	0.64	0.63	17.22	discard	Exp 53: mid horizon 105. CAGR 13.85 Sharpe 0.64. 126 stays.
