@@ -89,7 +89,7 @@ class SkeletonStrategy(bt.Strategy):
             trail = self.p.trail_pct
             if pos.price > 0 and hw > pos.price * 1.25:
                 trail = self.p.trail_pct_tight
-            elif pos.price > 0 and hw > pos.price * 1.15:
+            elif pos.price > 0 and hw > pos.price * 1.12:
                 trail = 0.10
             stop_hit = d.close[0] < hw * (1.0 - trail)
             if trend_break or stop_hit:
