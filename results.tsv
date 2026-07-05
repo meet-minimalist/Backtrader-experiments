@@ -103,3 +103,4 @@ exp99	197.85	12.08	0.70	0.70	16.38	discard	Exp 99: rebalance phase offset 2. Muc
 exp101	856.85	68.38	0.86	0.90	12.53	discard	Exp 101: cooldown=14. Calmar 68.38 just below 69.33. 12 stays.
 exp102	529.63	35.83	0.87	0.92	14.78	discard	Exp 102: short leg 42. Calmar 35.83 DD 14.78. 63 stays.
 exp103	794.93	65.70	0.85	0.90	12.10	discard	Exp 103: big winners exempt from rank exits. Calmar 65.70 below 69.33. Rare case - no help.
+exp104	812.48	69.62	0.79	0.82	11.67	discard	Exp 104: tight trail 0.07. Calmar 69.62 tied but Sharpe 0.85 to 0.79 CAGR 15.59. Rejected on Sharpe guard.
