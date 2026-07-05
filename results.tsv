@@ -79,3 +79,4 @@ exp76	555.38	44.75	0.81	0.85	12.41	discard	Exp 76: 1.75x on 147 leg. Calmar 44.7
 exp77	742.94	58.68	0.86	0.90	12.66	discard	Exp 77: slot 0.99. Calmar 58.68 below 61.13. 0.98 stays.
 exp78	762.74	58.36	0.81	0.84	13.07	discard	Exp 78: 0.75x on 189 leg. Calmar 58.36 Sharpe 0.81 below champion.
 exp79	837.65	67.34	0.69	0.71	12.44	discard	Exp 79: scale out half on profit-lock. Calmar 67.34 nominal but Sharpe 0.86 to 0.69 CAGR 13.10. XIRR artifact - rejected on Sharpe guard.
+exp80	751.08	61.01	0.83	0.86	12.31	discard	Exp 80: no buffer for losers. Calmar tied 61.01 but Sharpe 0.83 CAGR 16.18 worse plus more churn.
