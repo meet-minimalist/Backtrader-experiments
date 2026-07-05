@@ -45,3 +45,4 @@ exp42	73.98	4.74	0.68	0.68	15.61	discard	Exp 42: rebalance_every=7. CAGR 14.61 S
 exp43	422.29	26.00	0.68	0.68	16.24	discard	Exp 43: top_n=18. CAGR 14.69 Sharpe 0.68. Worse than champion 32.37.
 exp44	447.10	28.03	0.68	0.69	15.95	discard	Exp 44: top_n=22. CAGR 14.36 Sharpe 0.68. top_n=20 confirmed optimal.
 exp45	548.24	31.35	0.71	0.71	17.49	discard	Exp 45: trail_pct=0.13. CAGR 14.93 Sharpe 0.71 DD 17.49. Worse than champion.
+exp46	486.48	29.52	0.72	0.72	16.48	discard	Exp 46: hold_buffer_mult=1.5. CAGR 15.12 Sharpe 0.72. Below champion 32.37.
