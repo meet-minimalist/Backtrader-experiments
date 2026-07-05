@@ -120,3 +120,4 @@ exp117	460.77	39.42	0.84	0.88	11.69	discard	Exp 117: 1.6x on 147 leg. Calmar 39.
 exp118	798.73	70.68	0.86	0.91	11.30	discard	Exp 118: 1.4x on 147 leg. Calmar 70.68 just below 71.09. 1.5x stays.
 exp119	814.69	63.11	0.81	0.84	12.91	discard	Exp 119: 1.25x on 126 leg. Calmar 63.11 Sharpe 0.81. Equal weight stays.
 exp120	809.95	66.01	0.88	0.94	12.27	discard	Exp 120: middle tier 0.11. Sharpe 0.88 CAGR 16.79 but Calmar 66.01 below 71.09. 0.10 stays.
+exp121	831.71	60.44	0.72	0.73	13.76	discard	Exp 121: stagnation exit 40 bars. Sharpe 0.72 CAGR 14.51. Kills patient holds.
