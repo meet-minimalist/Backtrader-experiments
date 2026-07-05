@@ -124,3 +124,4 @@ exp121	831.71	60.44	0.72	0.73	13.76	discard	Exp 121: stagnation exit 40 bars. Sh
 exp122	808.38	70.23	0.86	0.90	11.51	discard	Exp 122: top tier at +26pct. Calmar 70.23 just below 71.09. +25pct stays.
 exp123	792.61	69.47	0.86	0.90	11.41	discard	Exp 123: slot 0.97. Calmar 69.47 below 71.09. 0.98 stays.
 exp124	845.48	71.17	0.86	0.90	11.88	discard	Exp 124: profit-lock skips trend exit. Calmar tie 71.17 but DD worse and more complex. Simpler champion stays.
+exp125	456.66	39.85	0.87	0.91	11.46	discard	Exp 125: 1.25x on 189 leg. Sharpe 0.87 fine but Calmar 39.85. Weights confirmed.
