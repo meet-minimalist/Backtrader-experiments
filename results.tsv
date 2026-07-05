@@ -130,3 +130,4 @@ exp127	818.70	70.27	0.82	0.86	11.65	discard	Exp 127: weighted percentile ranking
 exp128	787.87	69.23	0.87	0.92	11.38	discard	Exp 128: split cash evenly across pending buys. Sharpe 0.87 CAGR 16.69 slightly better but Calmar 69.23 lower. Near-miss.
 exp129	812.49	52.66	0.82	0.86	15.43	discard	Exp 129: volatility-normalized momentum. DD 15.43 Sharpe 0.82. Clearly worse.
 exp130	282.73	23.86	0.79	0.83	11.85	discard	Exp 130: breadth regime filter 40pct blocks new buys. XIRR collapses. Misses recoveries.
+exp131	787.87	69.23	0.87	0.92	11.38	discard	Exp 131: combo batch split + profit-lock trend skip. Identical to exp128 alone. Calmar 69.23.
