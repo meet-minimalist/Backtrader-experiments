@@ -4,9 +4,9 @@ Momentum rotation strategy.
 Logic:
 - Universe: all stocks in the configured index (multi-feed).
 - Every `rebalance_every` bars (weekly, 5), rank eligible stocks by
-  quad-horizon momentum: 189-bar + 147-bar + 126-bar + 63-bar returns, all
-  measured up to `momentum_skip` (10) bars ago to avoid short-term
-  reversal noise.
+  quad-horizon momentum: 189-bar + 1.5x147-bar + 126-bar + 63-bar
+  returns, all measured up to `momentum_skip` (10) bars ago to avoid
+  short-term reversal noise.
 - Hold the top `top_n` (20) stocks, roughly equal-weighted (0.98 of an
   equal slot of portfolio value).
 - Re-entry cooldown: after any sell, the name cannot be rebought for
@@ -63,7 +63,7 @@ class SkeletonStrategy(bt.Strategy):
         recent = d.close[-self.p.momentum_skip]
         if past <= 0 or mid <= 0 or mid2 <= 0 or mid3 <= 0:
             return None
-        return ((recent / past - 1.0) + (recent / mid3 - 1.0)
+        return ((recent / past - 1.0) + 1.5 * (recent / mid3 - 1.0)
                 + (recent / mid2 - 1.0) + (recent / mid - 1.0))
 
     def _eligible(self, d):
