@@ -67,3 +67,4 @@ exp64	809.97	55.67	0.82	0.86	14.55	discard	Exp 64: base trail 0.18. DD 14.55 Cal
 exp65	810.78	58.75	0.78	0.81	13.80	discard	Exp 65: third tier 6pct after +50pct. Calmar 58.75 Sharpe 0.78 below champion. Two tiers stay.
 exp66	822.41	61.88	0.80	0.83	13.29	discard	Exp 66: breakeven floor after +10pct. Calmar 61.88 marginal +1.7pct but Sharpe 0.83 to 0.80 CAGR down. Not worth added rule.
 exp67	711.10	48.01	0.79	0.81	14.81	discard	Exp 67: no cooldown on winning exits. Calmar 48.01 Sharpe 0.79 both below champion.
+exp68	314.15	23.31	0.81	0.84	13.48	discard	Exp 68: long leg 210. Sharpe 0.81 fine but Calmar 23.31 collapses. 189 stays.
