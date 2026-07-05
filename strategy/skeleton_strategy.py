@@ -10,7 +10,7 @@ Logic:
 - Hold the top `top_n` (20) stocks, roughly equal-weighted (0.98 of an
   equal slot of portfolio value).
 - Re-entry cooldown: after any sell, the name cannot be rebought for
-  `cooldown_bars` (10) bars.
+  `cooldown_bars` (12) bars.
 - Eligibility: stock must have enough history and trade above its
   150-day SMA (trend filter).
 - Rank hysteresis: buy only from the top N ranks, but keep holding
