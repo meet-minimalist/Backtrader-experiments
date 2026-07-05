@@ -87,3 +87,4 @@ exp84	771.24	63.58	0.89	0.94	12.13	discard	Exp 84: middle tier 9pct. Sharpe 0.89
 e344f74	788.36	65.70	0.88	0.92	12.00	keep	Exp 85: middle tier at +12pct gain. CAGR 16.91 Sharpe 0.88. Calmar 65.70 new best.
 exp86	797.06	65.60	0.85	0.89	12.15	discard	Exp 86: middle tier at +10pct. Calmar 65.60 tied but Sharpe 0.85 CAGR 16.50 worse. +12pct stays.
 exp87	789.39	57.16	0.84	0.89	13.81	discard	Exp 87: top tier at +22pct. Calmar 57.16 below 65.70. +25pct stays.
+exp88	822.96	62.02	0.82	0.86	13.27	discard	Exp 88: base trail 0.13. Calmar 62.02 Sharpe 0.82 below champion. 0.15 stays.
