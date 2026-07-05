@@ -48,3 +48,4 @@ exp45	548.24	31.35	0.71	0.71	17.49	discard	Exp 45: trail_pct=0.13. CAGR 14.93 Sh
 exp46	486.48	29.52	0.72	0.72	16.48	discard	Exp 46: hold_buffer_mult=1.5. CAGR 15.12 Sharpe 0.72. Below champion 32.37.
 exp47	218.42	14.48	0.61	0.61	15.08	discard	Exp 47: require positive 63-bar leg. CAGR 12.84 Sharpe 0.61. Much worse.
 exp48	464.08	29.75	0.71	0.71	15.60	discard	Exp 48: 5-bar smoothed reference prices. CAGR 14.91 Sharpe 0.71. Below champion.
+exp49	302.53	18.29	0.72	0.73	16.54	discard	Exp 49: rising SMA150 eligibility. CAGR 15.06 Sharpe 0.72. Below champion.
