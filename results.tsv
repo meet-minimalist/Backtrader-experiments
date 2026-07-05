@@ -53,3 +53,4 @@ exp50	392.56	24.07	0.71	0.71	16.31	discard	Exp 50: skip=7 with triple horizon. C
 exp51	557.34	34.99	0.68	0.68	15.93	discard	Exp 51: skip=12. Calmar 34.99 nominal but Sharpe 0.68 CAGR 14.52 both worse. XIRR turnover artifact - rejected on Sharpe guard.
 exp52	509.73	30.45	0.68	0.67	16.74	discard	Exp 52: top up underweight kept positions. CAGR 14.65 Sharpe 0.68. Worse.
 exp53	441.80	25.66	0.64	0.63	17.22	discard	Exp 53: mid horizon 105. CAGR 13.85 Sharpe 0.64. 126 stays.
+exp54	369.12	22.91	0.79	0.81	16.11	discard	Exp 54: mid horizon 147. Best Sharpe 0.79 CAGR 16.13 so far but Calmar 22.91 below 32.37. Near-miss.
