@@ -76,3 +76,4 @@ exp73	567.09	40.48	0.78	0.81	14.01	discard	Exp 73: 0.5x weight on 63 leg. Calmar
 exp74	616.56	47.83	0.84	0.88	12.89	discard	Exp 74: rank-weighted entry sizing. Calmar 47.83 Sharpe 0.84 below champion. Equal weight stays.
 exp75	358.08	27.57	0.74	0.77	12.99	discard	Exp 75: 21-bar entry gate. Calmar 27.57 Sharpe 0.74. Gate blocks good entries.
 exp76	555.38	44.75	0.81	0.85	12.41	discard	Exp 76: 1.75x on 147 leg. Calmar 44.75 below 61.13. 1.5x confirmed peak.
+exp77	742.94	58.68	0.86	0.90	12.66	discard	Exp 77: slot 0.99. Calmar 58.68 below 61.13. 0.98 stays.
