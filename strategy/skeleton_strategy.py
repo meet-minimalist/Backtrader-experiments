@@ -52,8 +52,9 @@ class SkeletonStrategy(bt.Strategy):
         self.cooldown_until = {}  # symbol -> bar_count when re-entry allowed
 
     def _momentum(self, d):
-        """Quad-horizon momentum: 189-bar + 147-bar + 126-bar + 63-bar
-        returns, all up to -momentum_skip bars; None if too short."""
+        """Quad-horizon momentum: 189-bar + 1.5x147-bar + 126-bar +
+        63-bar returns, all up to -momentum_skip bars; None if too
+        short."""
         if len(d) <= self.p.momentum_period:
             return None
         past = d.close[-self.p.momentum_period]
