@@ -55,3 +55,4 @@ exp52	509.73	30.45	0.68	0.67	16.74	discard	Exp 52: top up underweight kept posit
 exp53	441.80	25.66	0.64	0.63	17.22	discard	Exp 53: mid horizon 105. CAGR 13.85 Sharpe 0.64. 126 stays.
 exp54	369.12	22.91	0.79	0.81	16.11	discard	Exp 54: mid horizon 147. Best Sharpe 0.79 CAGR 16.13 so far but Calmar 22.91 below 32.37. Near-miss.
 7fbeac5	694.40	44.23	0.71	0.72	15.70	keep	Exp 55: quad-horizon 189+147+126+63. CAGR 15.06. Big Calmar win DD down Sharpe -0.04 within tolerance.
+exp56	497.57	30.05	0.72	0.73	16.56	discard	Exp 56: five-horizon add 168. CAGR 15.17 Sharpe 0.72 but Calmar 30.05 below 44.23.
