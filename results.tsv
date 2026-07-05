@@ -74,3 +74,4 @@ beec914	755.52	61.13	0.86	0.91	12.36	keep	Exp 71: 1.5x weight on 147 leg. CAGR 1
 exp72	554.26	42.60	0.84	0.88	13.01	discard	Exp 72: 2x weight on 147 leg. Calmar 42.60 below 61.13. 1.5x stays.
 exp73	567.09	40.48	0.78	0.81	14.01	discard	Exp 73: 0.5x weight on 63 leg. Calmar 40.48 Sharpe 0.78. Full weight stays.
 exp74	616.56	47.83	0.84	0.88	12.89	discard	Exp 74: rank-weighted entry sizing. Calmar 47.83 Sharpe 0.84 below champion. Equal weight stays.
+exp75	358.08	27.57	0.74	0.77	12.99	discard	Exp 75: 21-bar entry gate. Calmar 27.57 Sharpe 0.74. Gate blocks good entries.
