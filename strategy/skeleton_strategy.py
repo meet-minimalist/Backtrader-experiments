@@ -22,7 +22,7 @@ Logic:
   3. Trailing stop (checked daily): close drops more than `trail_pct`
      below the highest close seen while holding -> close. Once the
      position has gained over 25% from entry, the trail tightens to
-     `trail_pct_tight` (10%) to lock in profits.
+     `trail_pct_tight` (8%) to lock in profits.
 """
 
 import backtrader as bt
