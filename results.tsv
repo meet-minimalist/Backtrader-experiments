@@ -138,3 +138,4 @@ exp135	387.56	30.56	0.89	0.95	12.68	discard	Exp 135: adaptive slot floor 16. Sha
 exp136	570.95	37.39	0.72	0.73	15.27	discard	Exp 136: portfolio DD 8pct tightens all trails. DD worse 15.27 Sharpe 0.72. Whipsaw churn.
 exp137	827.32	68.60	0.90	0.95	12.06	discard	Exp 137: hard TP at +45pct. Sharpe 0.90 XIRR 827 but DD 12.06 drops Calmar to 68.60. Near-miss - probe thresholds.
 exp138	828.24	60.19	0.81	0.83	13.76	discard	Exp 138: hard TP at +60pct. DD 13.76 Sharpe 0.81. Worse than +45pct.
+exp139	812.67	65.12	0.82	0.85	12.48	discard	Exp 139: hard TP at +35pct. Calmar 65.12 Sharpe 0.82. +45 remains best TP but still below champion.
