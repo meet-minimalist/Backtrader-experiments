@@ -116,3 +116,4 @@ exp113	811.29	69.34	0.86	0.91	11.70	discard	Exp 113: base trail 0.17 under coold
 exp114	808.97	71.09	0.86	0.91	11.38	discard	Exp 114: hold_buffer_mult=2.25. Identical to champion - buffer saturated. Simpler 2x stays.
 exp115	783.60	62.59	0.88	0.93	12.52	discard	Exp 115: cooldown only daily exits. Sharpe 0.88 CAGR 16.89 but Calmar 62.59 below 71.09.
 exp116	849.45	68.84	0.84	0.88	12.34	discard	Exp 116: cooldown=13. Calmar 68.84 below 71.09. 12 stays.
+exp117	460.77	39.42	0.84	0.88	11.69	discard	Exp 117: 1.6x on 147 leg. Calmar 39.42. 1.5x confirmed sharp peak.
