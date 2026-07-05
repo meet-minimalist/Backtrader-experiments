@@ -60,3 +60,4 @@ exp57	362.57	24.66	0.75	0.75	14.70	discard	Exp 57: drop 63 leg. Sharpe 0.75 DD 1
 exp58	486.75	32.23	0.73	0.73	15.10	discard	Exp 58: short leg 84. CAGR 15.31 Sharpe 0.73 but Calmar 32.23 below 44.23.
 eb97d1e	780.63	56.57	0.75	0.77	13.80	keep	Exp 59: two-tier trail 10pct after +25pct gain. CAGR 15.20 Sharpe 0.75 DD 13.80. Wins everywhere.
 f2fb37c	802.56	60.85	0.83	0.87	13.19	keep	Exp 60: tight trail 0.08. CAGR 16.31 Sharpe 0.83 DD 13.19. Best on every metric.
+exp61	820.28	62.19	0.75	0.78	13.19	discard	Exp 61: tight trail 0.06. Calmar +2pct but Sharpe 0.83 to 0.75 CAGR down. Rejected on Sharpe guard.
