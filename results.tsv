@@ -92,3 +92,4 @@ exp89	792.07	65.19	0.84	0.87	12.15	discard	Exp 89: base trail 0.17. Calmar 65.19
 exp90	788.30	60.69	0.79	0.80	12.99	discard	Exp 90: proximity-to-high scaling. Calmar 60.69 Sharpe 0.79 below champion.
 exp91	833.61	68.33	0.81	0.84	12.20	discard	Exp 91: stop on daily low. Calmar 68.33 nominal but Sharpe 0.88 to 0.81 CAGR 15.81 more churn. Rejected on Sharpe guard.
 exp92	679.83	44.58	0.79	0.83	15.25	discard	Exp 92: consistency-scaled momentum. Calmar 44.58 Sharpe 0.79 below champion.
+exp93	397.91	28.22	0.86	0.90	14.10	discard	Exp 93: entries need close above 1.02x SMA. Calmar 28.22 collapses.
