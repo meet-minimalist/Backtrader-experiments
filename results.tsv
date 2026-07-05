@@ -64,3 +64,4 @@ exp61	820.28	62.19	0.75	0.78	13.19	discard	Exp 61: tight trail 0.06. Calmar +2pc
 exp62	774.58	51.40	0.80	0.83	15.07	discard	Exp 62: tighten at +20pct. Calmar 51.40 Sharpe 0.80 both below champion. +25pct stays.
 exp63	792.94	60.58	0.82	0.86	13.09	discard	Exp 63: tighten at +30pct. Calmar 60.58 Sharpe 0.82 marginally below champion. +25pct stays.
 exp64	809.97	55.67	0.82	0.86	14.55	discard	Exp 64: base trail 0.18. DD 14.55 Calmar 55.67 below champion. 0.15 stays.
+exp65	810.78	58.75	0.78	0.81	13.80	discard	Exp 65: third tier 6pct after +50pct. Calmar 58.75 Sharpe 0.78 below champion. Two tiers stay.
