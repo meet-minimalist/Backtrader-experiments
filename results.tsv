@@ -70,3 +70,4 @@ exp67	711.10	48.01	0.79	0.81	14.81	discard	Exp 67: no cooldown on winning exits.
 exp68	314.15	23.31	0.81	0.84	13.48	discard	Exp 68: long leg 210. Sharpe 0.81 fine but Calmar 23.31 collapses. 189 stays.
 exp69	404.89	25.20	0.74	0.75	16.07	discard	Exp 69: trend_period=130. Worse everywhere. 150 stays.
 exp70	677.54	41.47	0.74	0.75	16.34	discard	Exp 70: cooldown=5. Worse everywhere. 10 stays.
+beec914	755.52	61.13	0.86	0.91	12.36	keep	Exp 71: 1.5x weight on 147 leg. CAGR 16.67 Sharpe 0.86 DD 12.36. Improves everything.
