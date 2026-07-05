@@ -43,3 +43,4 @@ a9ca228	489.72	32.37	0.75	0.76	15.13	keep	Exp 40: triple-horizon momentum 189+12
 exp41	207.20	13.01	0.74	0.75	15.93	discard	Exp 41: quad-horizon add 252-bar term. CAGR 15.30. Calmar collapses vs 32.37.
 exp42	73.98	4.74	0.68	0.68	15.61	discard	Exp 42: rebalance_every=7. CAGR 14.61 Sharpe 0.68. Worse everywhere.
 exp43	422.29	26.00	0.68	0.68	16.24	discard	Exp 43: top_n=18. CAGR 14.69 Sharpe 0.68. Worse than champion 32.37.
+exp44	447.10	28.03	0.68	0.69	15.95	discard	Exp 44: top_n=22. CAGR 14.36 Sharpe 0.68. top_n=20 confirmed optimal.
