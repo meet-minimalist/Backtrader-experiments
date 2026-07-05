@@ -109,3 +109,4 @@ exp106	899.99	65.17	0.88	0.93	13.81	discard	Exp 106: top_n=19. Sharpe 0.88 CAGR 
 exp107	1050.74	77.32	0.80	0.83	13.59	discard	Exp 107: lookback 196. XIRR 1050 artifact Sharpe 0.80 CAGR 15.79 DD 13.59 all worse. Sharpe guard reject.
 exp108	439.84	34.44	0.85	0.88	12.77	discard	Exp 108: lookback 182. Calmar 34.44. 189 confirmed peak.
 exp109	406.94	30.26	0.87	0.91	13.45	discard	Exp 109: EMA150 trend filter. Calmar 30.26. SMA stays.
+exp110	233.54	14.75	0.73	0.75	15.83	discard	Exp 110: rebalance=6. Calmar 14.75. 5 confirmed.
