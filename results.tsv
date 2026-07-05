@@ -133,3 +133,4 @@ exp130	282.73	23.86	0.79	0.83	11.85	discard	Exp 130: breadth regime filter 40pct
 exp131	787.87	69.23	0.87	0.92	11.38	discard	Exp 131: combo batch split + profit-lock trend skip. Identical to exp128 alone. Calmar 69.23.
 exp132	257.87	17.67	0.77	0.79	14.59	discard	Exp 132: rebalance on Mondays. Calmar 17.67 Sharpe 0.77. Confirms phase sensitivity.
 exp133	647.70	37.48	0.78	0.80	17.28	discard	Exp 133: rebalance on Wednesdays. Calmar 37.48 DD 17.28. Worse.
+exp134	463.06	35.38	0.90	0.96	13.09	discard	Exp 134: adaptive slot floor 12. Sharpe 0.90 CAGR 17.47 best real metrics but DD 13.09 XIRR halves. Strong near-miss.
