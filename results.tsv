@@ -113,3 +113,4 @@ exp110	233.54	14.75	0.73	0.75	15.83	discard	Exp 110: rebalance=6. Calmar 14.75. 
 exp111	805.06	67.60	0.83	0.86	11.91	discard	Exp 111: middle 9pct with cooldown 12. Calmar 67.60 below 69.33. 10pct stays.
 a419b98	808.97	71.09	0.86	0.91	11.38	keep	Exp 112: base trail 0.16. CAGR 16.66 Sharpe 0.86 DD 11.38. All four better.
 exp113	811.29	69.34	0.86	0.91	11.70	discard	Exp 113: base trail 0.17 under cooldown 12. Calmar 69.34 below 71.09. 0.16 stays.
+exp114	808.97	71.09	0.86	0.91	11.38	discard	Exp 114: hold_buffer_mult=2.25. Identical to champion - buffer saturated. Simpler 2x stays.
